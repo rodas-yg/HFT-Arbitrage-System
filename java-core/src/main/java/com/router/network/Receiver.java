@@ -12,7 +12,6 @@ import java.nio.channels.DatagramChannel;
  * This standalone thread handles physical network IO and calculates latency.
  */
 public class Receiver {
-
     private static void debuff(ByteBuffer buffer) {
         // Read directly from native memory
         long timestamp = buffer.getLong(0);
@@ -20,6 +19,7 @@ public class Receiver {
         double bidQty = buffer.getDouble(16);
         double askPrice = buffer.getDouble(24);
         double askQty = buffer.getDouble(32);
+        long volatility = buffer.getLong(16);
 
         // Zero-allocation epoch alignment.
         long javaTime = System.currentTimeMillis() * 1_000_000L;
@@ -35,11 +35,9 @@ public class Receiver {
         DatagramChannel channel = DatagramChannel.open();
         // Explicitly bind to IPv4 localhost so we don't accidentally listen on IPv6
         channel.bind(new InetSocketAddress("127.0.0.1", 8888));
-
         channel.configureBlocking(false);
 
         System.out.println("Java Engine Network Thread listening on IPv4 UDP 127.0.0.1:8888...");
-
         while (true) {
             buffer.clear();
             SocketAddress address = channel.receive(buffer);
