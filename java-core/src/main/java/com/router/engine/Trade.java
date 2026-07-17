@@ -1,17 +1,19 @@
-packge com.router.engine;
-//data carrier
-public class Trade {
-    public long inTime;
-    public long bidPrice;
-    public long bidVolume;
-    public long askPrice;
-    public long askVolume;
+package com.router.engine;
 
-    public void update(long inTime, long bidPrice, long bidVolume, long askPrice, long askVolume) {
-        this.inTime = inTime;
+
+public class Trade {
+    public long ingestTimestampNs;
+
+    public double bidPrice;
+    public double bidQty;
+    public double askPrice;
+    public double askQty;
+
+    public void update(long ingestTimestampNs, double bidPrice, double bidQty, double askPrice, double askQty) {
+        this.ingestTimestampNs = ingestTimestampNs;
         this.bidPrice = bidPrice;
-        this.bidVolume = bidVolume;
+        this.bidQty = bidQty;
         this.askPrice = askPrice;
-        this.askVolume = askVolume;
+        this.askQty = askQty;
     }
 }

@@ -24,13 +24,13 @@ import java.lang.invoke.VarHandle;
 public class Padding {
     long p1, p2, p3, p4, p5, p6, p7; //7*8=56 bytes of memory (the rest 8 wil be the actual value)
 
-    private volatile long seq = 0; //volatile forces the cpu to communicate with L3 so that it doesnt miss the updates from the first core
+    private volatile long sequence = 0; //volatile forces the cpu to communicate with L3 so that it doesnt miss the updates from the first core
     long p8, p9, p10, p11, p12, p13, p14;//back padding
 
-    private static final VarHandle seqHandle;
+    private static final VarHandle SEQUENCE_HANDLE;
     static { //static blocks are run before any other objects are created
         try{
-            SEQUENCE_HANDLE = MethodHandles.lookup().findVarHandle(PaddedSequence.class, "sequence", long.class);
+            SEQUENCE_HANDLE = MethodHandles.lookup().findVarHandle(Padding.class, "sequence", long.class);
         } catch (ReflectiveOperationException e) {
             throw new Error(e);
         }
@@ -43,5 +43,5 @@ public class Padding {
     public void setRelease(long nextSequence) {
         SEQUENCE_HANDLE.setRelease(this, nextSequence);
     }
-}
+
 }

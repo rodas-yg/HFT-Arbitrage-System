@@ -1,3 +1,4 @@
+package com.router.engine;
 //The point of using a ring buffer is to serve as a queueing dsa for the packages.
 public class RingBuffer {
     private int capacity;
@@ -22,7 +23,7 @@ public boolean publish(long time, double bid, double bidAmount, double ask, doub
         long currentCons = consumer.getAcquire();
 
         //if we have more produced packet and we are out of queue we can just return flase
-    if (currentProd - currentCons>= buffer.lenght){
+    if (currentProd - currentCons>= buffer.length){
         return false;
     }
     int index = (int)(currentProd & capacity); // this is why we required the capacity to be a power of 2 and subtract one. then we dont need to use mode to find the index of the enxt packet
@@ -31,7 +32,7 @@ public boolean publish(long time, double bid, double bidAmount, double ask, doub
     producer.setRelease(currentProd+1);
     return true;
 }
-    public TradeEvent poll() {
+    public Trade poll() {
         long currentCons = consumer.getAcquire();
         long currentProd = producer.getAcquire();
 
@@ -40,11 +41,10 @@ public boolean publish(long time, double bid, double bidAmount, double ask, doub
         }
 
         int index = (int) (currentCons & capacity);
-        TradeEvent event = buffer[index];
+        Trade event = buffer[index];
 
         consumer.setRelease(currentCons + 1);
 
         return event;
     }
-}
 }

@@ -1,4 +1,8 @@
 package com.router.network;
+import com.router.engine.OBI;
+import com.router.engine.Padding;
+import com.router.engine.RingBuffer;
+import com.router.engine.Trade;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -8,27 +12,16 @@ import java.nio.ByteOrder;
 import java.nio.channels.DatagramChannel;
 ///hahaha///
 /**
- * This can act as a sprouting class for the (circular!) ring buffer.
  * This standalone thread handles physical network IO and calculates latency.
  */
 public class Receiver {
-    private static void debuff(ByteBuffer buffer) {
-        // Read directly from native memory
-        long timestamp = buffer.getLong(0);
-        double bidPrice = buffer.getDouble(8);
-        double bidQty = buffer.getDouble(16);
-        double askPrice = buffer.getDouble(24);
-        double askQty = buffer.getDouble(32);
-        long volatility = buffer.getLong(16);
-
-        // Zero-allocation epoch alignment.
-        long javaTime = System.currentTimeMillis() * 1_000_000L;
-        long latency = javaTime - timestamp;
-
-        System.out.println("Latency: " + latency + " ns | Bid: $" + bidPrice);
-    }
 
     public static void main(String[] args) throws IOException {
+        RingBuffer ringBuffer = new RingBuffer(1024);
+
+        Thread strategyThread = new Thread(new OBI(ringBuffer));
+        strategyThread.start();
+
         ByteBuffer buffer = ByteBuffer.allocateDirect(40);
         buffer.order(ByteOrder.BIG_ENDIAN);
 
@@ -42,7 +35,12 @@ public class Receiver {
             buffer.clear();
             SocketAddress address = channel.receive(buffer);
             if (address != null) {
-                debuff(buffer);
+                long timestamp = buffer.getLong(0);
+                double bidPrice = buffer.getDouble(8);
+                double bidQty = buffer.getDouble(16);
+                double askPrice = buffer.getDouble(24);
+                double askQty = buffer.getDouble(32);
+                ringBuffer.publish(timestamp, bidPrice, bidQty, askPrice, askQty);
             }
         }
     }
