@@ -115,7 +115,6 @@ let test_wire_roundtrip () =
   assert_bool "market_state ai_confidence roundtrip"
     true (Float.equal original.ai_confidence decoded.ai_confidence)
 
-(* === Benchmark === *)
 let benchmark_eval () =
   Printf.printf "\n[Benchmark]\n%!";
   let iterations = 1_000_000 in

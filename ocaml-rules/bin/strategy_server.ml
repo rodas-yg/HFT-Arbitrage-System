@@ -60,19 +60,15 @@ let handle_client (client_fd : Unix.file_descr) : unit =
   let strategy_pipeline = Strategies.default_pipeline in
   (try
     while true do
-      (* 1. Read 24 bytes: 3 × float64 big-endian *)
       let request_buf = read_exact client_fd Wire.request_size in
       let state = Wire.decode_market_state request_buf in
 
-      (* 2. Evaluate the strategy cascade *)
       let action = Strategies.eval_cascade state strategy_pipeline in
 
-      (* 3. Write 1 byte response *)
       let response = Bytes.create Wire.response_size in
       Bytes.set response 0 (Wire.encode_action action);
       write_exact client_fd response;
 
-      (* 4. Periodic logging (every 100 evaluations) *)
       incr eval_count;
       if !eval_count mod 100 = 0 then
         Printf.printf "[OCaml] #%d | %s | -> %s\n%!"

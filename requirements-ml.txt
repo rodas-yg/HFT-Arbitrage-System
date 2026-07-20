@@ -1,0 +1,4 @@
+websockets>=13.0
+pandas>=2.2
+pyarrow>=17.0
+orjson>=3.10
