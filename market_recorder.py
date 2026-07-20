@@ -20,9 +20,7 @@ import pyarrow.parquet as pq
 import orjson
 
 
-# ──────────────────────────────────────────────────────
 #  Config
-# ──────────────────────────────────────────────────────
 SYMBOL = os.getenv("SYMBOL", "btcusdt")
 WS_URL = f"wss://stream.binance.com:9443/ws/{SYMBOL}@bookTicker"
 BATCH_FLUSH_SIZE = 10_000
@@ -45,12 +43,10 @@ PARQUET_SCHEMA = pa.schema([
 ])
 
 
-# ──────────────────────────────────────────────────────
-#  Feature computation — pure functions, no allocations
-# ──────────────────────────────────────────────────────
+#  Feature computation
 
 def compute_midprice(bid_px: float, ask_px: float) -> float:
-    """arithmetic mid"""
+    """arithmetic mid""" #calculates the mid-price of the asset
     return (bid_px + ask_px) * 0.5
 
 
@@ -90,9 +86,7 @@ def compute_microprice_momentum(current: float,
     return (current - old) / old
 
 
-# ──────────────────────────────────────────────────────
 #  Parquet writer — appends row-groups without re-reading
-# ──────────────────────────────────────────────────────
 
 class ParquetFlusher:
     """handles incremental parquet writes so we never hold more than one batch in RAM"""
@@ -128,9 +122,7 @@ class ParquetFlusher:
             self._writer = None
 
 
-# ──────────────────────────────────────────────────────
-#  Core loop
-# ──────────────────────────────────────────────────────
+#  loop
 
 async def record(shutdown_event: asyncio.Event):
     """main ws consumer — reconnects on drop, flushes on interval or batch size"""
@@ -169,7 +161,7 @@ async def record(shutdown_event: asyncio.Event):
                         ask_px = float(msg["a"])
                         ask_qty = float(msg["A"])
 
-                        # -- compute features
+                        # - compute features
                         mid = compute_midprice(bid_px, ask_px)
                         micro = compute_microprice(bid_px, bid_qty,
                                                    ask_px, ask_qty)
@@ -193,7 +185,7 @@ async def record(shutdown_event: asyncio.Event):
 
                         total_ticks += 1
 
-                        # -- flush check
+                        #  flush check
                         now = time.monotonic()
                         if (len(batch) >= BATCH_FLUSH_SIZE
                                 or (now - last_flush_time) >= FLUSH_INTERVAL_S):
@@ -224,9 +216,8 @@ async def record(shutdown_event: asyncio.Event):
         print(f"[recorder] done — {total_ticks:,} total ticks → {OUTPUT_FILE}")
 
 
-# ──────────────────────────────────────────────────────
+# 
 #  Entry point with graceful shutdown
-# ──────────────────────────────────────────────────────
 
 def main():
     shutdown = asyncio.Event()
