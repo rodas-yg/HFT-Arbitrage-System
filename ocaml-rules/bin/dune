@@ -1,0 +1,3 @@
+(executable
+ (name strategy_server)
+ (libraries strategy_engine unix))

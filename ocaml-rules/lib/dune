@@ -1,0 +1,3 @@
+(library
+ (name strategy_engine)
+ (libraries unix))
