@@ -1,0 +1,56 @@
+{
+  "features": {
+    "microprice": {
+      "mean": 66267.62624940452,
+      "std": 508.20855425222817,
+      "log_transformed": false
+    },
+    "midprice": {
+      "mean": 66267.62523400542,
+      "std": 508.20868787937684,
+      "log_transformed": false
+    },
+    "spread_bps": {
+      "mean": 0.004096088535401302,
+      "std": 0.037811399314098486,
+      "log_transformed": false
+    },
+    "volume_ratio": {
+      "mean": 1.4946324692978825,
+      "std": 2.0198714731431093,
+      "log_transformed": true
+    },
+    "microprice_return_1": {
+      "mean": 5.5468845713400714e-08,
+      "std": 1.840539387656086e-05,
+      "log_transformed": false
+    },
+    "microprice_return_5": {
+      "mean": 2.773540941681375e-07,
+      "std": 4.1398628993948485e-05,
+      "log_transformed": false
+    },
+    "microprice_return_10": {
+      "mean": 5.547630933557198e-07,
+      "std": 5.948384489641996e-05,
+      "log_transformed": false
+    },
+    "obi_ema_5": {
+      "mean": -0.025357186305587278,
+      "std": 0.7405622919848183,
+      "log_transformed": false
+    },
+    "microprice_momentum": {
+      "mean": 5.547630933557198e-07,
+      "std": 5.948384489641996e-05,
+      "log_transformed": false
+    }
+  },
+  "label_threshold": 0.0001,
+  "label_horizons_s": {
+    "5s": 5.0,
+    "30s": 30.0
+  },
+  "source_file": "features_btcusdt_20260721_035601.parquet",
+  "num_rows": 316740
+}

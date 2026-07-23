@@ -11,8 +11,6 @@
     - No heap allocation during evaluation (all values are unboxed floats/bools)
     - Target latency: < 1µs for trees of depth ≤ 10
 
-    OCaml's native compiler generates efficient jump tables for pattern matches,
-    making this evaluator competitive with hand-written C switch statements.
 *)
 
 let resolve_field (state : Ast.market_state) (field : Ast.market_field) : float =
@@ -74,3 +72,5 @@ let eval_action (state : Ast.market_state) (expr : Ast.expr) : Ast.trade_action 
     if eval state cond then on_true else on_false
   | _ ->
     if eval state expr then Ast.Buy else Ast.Hold
+
+    
