@@ -1,6 +1,10 @@
 package com.router.engine;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.channels.DatagramChannel;
 
 public class OBI implements Runnable {
     private final RingBuffer ringBuffer;
@@ -14,6 +18,17 @@ public class OBI implements Runnable {
 
     /** Placeholder for Phase 3 AI signal (received on UDP 8889) */
     private volatile double latestAiSignal = 0.0;
+
+    /**
+     * UDP broadcast channel for telemetry (Port 9000).
+     * Sends a 41-byte binary packet per tick to the Python telemetry recorder:
+     *   [timestamp_ns:8B | microprice:8B | imbalance:8B | ai_confidence:8B | strategy_action:1B]
+     */
+    private DatagramChannel telemetryChannel = null;
+    private ByteBuffer telemetryBuf = null;
+    private static final InetSocketAddress TELEMETRY_DEST =
+            new InetSocketAddress("127.0.0.1", 9000);
+    private static final int TELEMETRY_PACKET_SIZE = 33; // 4×8 + 1
 
     public OBI(RingBuffer ringBuffer) {
         this.ringBuffer = ringBuffer;
@@ -33,12 +48,54 @@ public class OBI implements Runnable {
         }
     }
 
+    /**
+     * Initialize the UDP telemetry broadcast channel (Port 9000).
+     * Fire-and-forget — if no listener is running, packets are silently dropped.
+     */
+    private void initTelemetry() {
+        try {
+            telemetryChannel = DatagramChannel.open();
+            telemetryChannel.configureBlocking(false);
+            telemetryBuf = ByteBuffer.allocateDirect(TELEMETRY_PACKET_SIZE);
+            telemetryBuf.order(ByteOrder.BIG_ENDIAN);
+            System.out.println("[Java] Telemetry broadcast initialized on UDP 127.0.0.1:9000");
+        } catch (IOException e) {
+            System.out.println("[Java] Failed to init telemetry: " + e.getMessage());
+            telemetryChannel = null;
+        }
+    }
+
+    /**
+     * Broadcast a telemetry packet via UDP (fire-and-forget).
+     */
+    private void broadcastTelemetry(long timestampNs, double microprice,
+                                    double imbalance, double aiConfidence,
+                                    TradeAction action) {
+        if (telemetryChannel == null || telemetryBuf == null) return;
+        try {
+            telemetryBuf.clear();
+            telemetryBuf.putLong(timestampNs);
+            telemetryBuf.putDouble(microprice);
+            telemetryBuf.putDouble(imbalance);
+            telemetryBuf.putDouble(aiConfidence);
+            telemetryBuf.put(action == TradeAction.BUY ? (byte) 1
+                           : action == TradeAction.SELL ? (byte) 2 : (byte) 0);
+            telemetryBuf.flip();
+            telemetryChannel.send(telemetryBuf, TELEMETRY_DEST);
+        } catch (IOException e) {
+            // Silently drop — telemetry is best-effort
+        }
+    }
+
     @Override
     public void run() {
         System.out.println("Strategy thread started. Waiting for data...");
 
         // Try to connect to OCaml on startup
         connectToOCaml();
+
+        // Initialize telemetry broadcast
+        initTelemetry();
 
         while (true) {
             Trade event = ringBuffer.poll();
@@ -75,6 +132,10 @@ public class OBI implements Runnable {
                         strategyClient = null;
                     }
                 }
+
+                // Broadcast telemetry to Python recorder (UDP 9000, fire-and-forget)
+                broadcastTelemetry(event.ingestTimestampNs, microprice, imbalance,
+                                   latestAiSignal, action);
 
                 messageCount++;
                 if (messageCount % 100 == 0) {

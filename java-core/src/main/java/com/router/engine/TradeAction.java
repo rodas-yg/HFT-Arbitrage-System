@@ -1,7 +1,7 @@
 package com.router.engine;
 
 /**
- * Trade actions returned by the OCaml Strategy Engine.
+ * Trade actions returned by the OCaml Engine.
  * Wire encoding matches OCaml's Wire.encode_action:
  *   Hold = 0x00, Buy = 0x01, Sell = 0x02
  */
