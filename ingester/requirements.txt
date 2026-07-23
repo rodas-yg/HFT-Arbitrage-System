@@ -1,0 +1,4 @@
+websockets>=13.0
+certifi
+orjson>=3.10
+torch>=2.0
