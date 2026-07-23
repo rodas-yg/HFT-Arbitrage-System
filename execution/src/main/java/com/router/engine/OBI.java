@@ -16,8 +16,17 @@ public class OBI implements Runnable {
      */
     private StrategyClient strategyClient = null;
 
-    /** Placeholder for Phase 3 AI signal (received on UDP 8889) */
+    /**
+     * AI confidence signal from ml.py (received on UDP 8889).
+     * Range: [-1.0, 1.0] where positive = bullish, negative = bearish.
+     * Computed as prob_up - prob_down from the LSTM softmax output.
+     * Volatile for lock-free cross-thread visibility.
+     */
     private volatile double latestAiSignal = 0.0;
+
+    /** AI prediction receive buffer: 16 bytes = 2 × float64 big-endian */
+    private static final int AI_PACKET_SIZE = 16;
+    private static final int AI_PORT = 8889;
 
     /**
      * UDP broadcast channel for telemetry (Port 9000).
@@ -87,6 +96,46 @@ public class OBI implements Runnable {
         }
     }
 
+    /**
+     * Start a background daemon thread to receive AI predictions from ml.py.
+     *
+     * Listens on UDP 8889 for 16-byte packets:
+     *   [prob_down:8B | prob_up:8B] (big-endian float64)
+     *
+     * Computes net confidence: prob_up - prob_down ∈ [-1.0, 1.0]
+     * and stores it in latestAiSignal for the strategy evaluator.
+     *
+     * If ml.py is not running, this thread blocks harmlessly on receive().
+     */
+    private void startAiReceiver() {
+        Thread aiThread = new Thread(() -> {
+            try {
+                DatagramChannel aiChannel = DatagramChannel.open();
+                aiChannel.bind(new InetSocketAddress("127.0.0.1", AI_PORT));
+                aiChannel.configureBlocking(true);
+
+                ByteBuffer aiBuf = ByteBuffer.allocateDirect(AI_PACKET_SIZE);
+                aiBuf.order(ByteOrder.BIG_ENDIAN);
+
+                System.out.println("[Java] AI receiver listening on UDP 127.0.0.1:" + AI_PORT);
+
+                while (true) {
+                    aiBuf.clear();
+                    aiChannel.receive(aiBuf);
+                    if (aiBuf.position() >= AI_PACKET_SIZE) {
+                        double probDown = aiBuf.getDouble(0);
+                        double probUp   = aiBuf.getDouble(8);
+                        latestAiSignal  = probUp - probDown;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("[Java] AI receiver failed: " + e.getMessage());
+            }
+        }, "ai-receiver");
+        aiThread.setDaemon(true);
+        aiThread.start();
+    }
+
     @Override
     public void run() {
         System.out.println("Strategy thread started. Waiting for data...");
@@ -96,6 +145,9 @@ public class OBI implements Runnable {
 
         // Initialize telemetry broadcast
         initTelemetry();
+
+        // Start AI prediction receiver (UDP 8889 from ml.py)
+        startAiReceiver();
 
         while (true) {
             Trade event = ringBuffer.poll();

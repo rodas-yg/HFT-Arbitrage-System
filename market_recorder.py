@@ -34,7 +34,8 @@ import argparse
 from abc import ABC, abstractmethod
 from collections import deque
 from datetime import datetime, timezone
-from typing import AsyncIterator, NamedTuple
+from collections.abc import AsyncGenerator
+from typing import NamedTuple
 
 import certifi
 import websockets
@@ -74,7 +75,7 @@ class DataSource(ABC):
         ...
 
     @abstractmethod
-    async def stream(self) -> AsyncIterator[Tick]:
+    def stream(self) -> AsyncGenerator[Tick, None]:
         """Yield Tick objects from the exchange's WebSocket feed.
 
         Must handle reconnection internally. Should yield ticks indefinitely
@@ -102,7 +103,7 @@ class BinanceSource(DataSource):
     def symbol(self) -> str:
         return self._symbol
 
-    async def stream(self) -> AsyncIterator[Tick]:
+    async def stream(self) -> AsyncGenerator[Tick, None]:
         """Connect to Binance and yield Tick objects.
 
         Auto-reconnects on connection drops with a 3-second backoff.
@@ -139,9 +140,9 @@ class BinanceSource(DataSource):
                 await asyncio.sleep(3)
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# 
 #  Feature Computation (pure functions — no side effects)
-# ═══════════════════════════════════════════════════════════════════════════════
+# 
 
 def compute_midprice(bid_px: float, ask_px: float) -> float:
     """Arithmetic midpoint: (bid + ask) / 2"""
@@ -212,9 +213,8 @@ def compute_microprice_momentum(current: float, history: deque,
     return (current - old) / old
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 #  Parquet Writer — incremental append with row-groups
-# ═══════════════════════════════════════════════════════════════════════════════
+
 
 PARQUET_SCHEMA = pa.schema([
     # Raw order book data
@@ -276,9 +276,7 @@ class ParquetFlusher:
             self._writer = None
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Recording Loop
-# ═══════════════════════════════════════════════════════════════════════════════
+# 
 
 BATCH_FLUSH_SIZE = 10_000
 FLUSH_INTERVAL_S = 300       # 5 minutes
@@ -324,6 +322,7 @@ async def record(source: DataSource,
     print("=" * 60)
 
     try:
+        # pyrefly: ignore [not-iterable]
         async for tick in source.stream():
             if shutdown_event.is_set():
                 break
@@ -333,7 +332,7 @@ async def record(source: DataSource,
                 print(f"[recorder] duration limit reached ({max_duration_s:.0f}s)")
                 break
 
-            # ── Compute features ─────────────────────────────────────
+            #Compute features 
             mid = compute_midprice(tick.bid_px, tick.ask_px)
             micro = compute_microprice(tick.bid_px, tick.bid_qty,
                                        tick.ask_px, tick.ask_qty)
@@ -348,13 +347,12 @@ async def record(source: DataSource,
             momentum = compute_microprice_momentum(micro, microprice_history,
                                                    MOMENTUM_WINDOW)
 
-            # EMA of OBI (smoothed signal)
             obi_ema = compute_ema(obi, obi_ema, EMA_ALPHA_5)
 
             # Update history ring
             microprice_history.append(micro)
 
-            # ── Append to batch ──────────────────────────────────────
+            #Append to batch 
             batch.append({
                 "timestamp_ns":         tick.timestamp_ns,
                 "bid_px":               tick.bid_px,
@@ -376,7 +374,7 @@ async def record(source: DataSource,
 
             total_ticks += 1
 
-            # ── Flush check ──────────────────────────────────────────
+            # ── Flush check 
             now = time.monotonic()
             if (len(batch) >= BATCH_FLUSH_SIZE
                     or (now - last_flush_time) >= FLUSH_INTERVAL_S):
@@ -405,9 +403,7 @@ async def record(source: DataSource,
         print(f"[recorder] done — {total_ticks:,} ticks in {elapsed:.1f}s → {output_file}")
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-#  Entry Point
-# ═══════════════════════════════════════════════════════════════════════════════
+#
 
 def main():
     parser = argparse.ArgumentParser(
@@ -433,14 +429,12 @@ def main():
     )
     args = parser.parse_args()
 
-    # Select data source
-    if args.source == "binance":
+    if args.source == "binance": #may change
         source = BinanceSource(symbol=args.symbol)
     else:
         print(f"Unknown source: {args.source}")
         sys.exit(1)
 
-    # Setup graceful shutdown
     shutdown = asyncio.Event()
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
