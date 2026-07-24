@@ -17,16 +17,16 @@ let assert_bool name expected actual =
   else fail name (string_of_bool expected) (string_of_bool actual)
 
 let bullish_state : Ast.market_state =
-  { microprice = 63000.0; imbalance = 0.85; ai_confidence = 0.92 }
+  { microprice = 63000.0; imbalance = 0.85; ai_confidence = 0.92; kalshi_ask_price = 0.6 }
 
 let bearish_state : Ast.market_state =
-  { microprice = 65000.0; imbalance = -0.85; ai_confidence = 0.95 }
+  { microprice = 65000.0; imbalance = -0.85; ai_confidence = 0.95; kalshi_ask_price = 0.6 }
 
 let neutral_state : Ast.market_state =
-  { microprice = 62000.0; imbalance = 0.1; ai_confidence = 0.5 }
+  { microprice = 62000.0; imbalance = 0.1; ai_confidence = 0.5; kalshi_ask_price = 0.6 }
 
 let no_ai_state : Ast.market_state =
-  { microprice = 65000.0; imbalance = -0.9; ai_confidence = 0.0 }
+  { microprice = 65000.0; imbalance = -0.9; ai_confidence = 0.0; kalshi_ask_price = 0.6 }
 
 let test_compare () =
   Printf.printf "\n[Compare nodes]\n%!";

@@ -18,6 +18,7 @@ let resolve_field (state : Ast.market_state) (field : Ast.market_field) : float 
   | Ast.Microprice    -> state.microprice
   | Ast.Imbalance     -> state.imbalance
   | Ast.AiConfidence  -> state.ai_confidence
+  | Ast.KalshiAskPrice -> state.kalshi_ask_price
 
 let compare_op (op : Ast.comparison) (lhs : float) (rhs : float) : bool =
   match op with

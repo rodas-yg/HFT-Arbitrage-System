@@ -15,8 +15,8 @@
 *)
 
 (** Size of the incoming market state payload in bytes.
-    3 fields × 8 bytes per float64 = 24 bytes. *)
-let request_size = 24
+    4 fields × 8 bytes per float64 = 32 bytes. *)
+let request_size = 32
 
 (** Size of the outgoing trade action response in bytes. *)
 let response_size = 1
@@ -31,10 +31,11 @@ let response_size = 1
     @param buf  A [Bytes.t] of length >= 24
     @return     The decoded market state record *)
 let decode_market_state (buf : Bytes.t) : Ast.market_state =
-  let microprice    = Int64.float_of_bits (Bytes.get_int64_be buf 0) in
-  let imbalance     = Int64.float_of_bits (Bytes.get_int64_be buf 8) in
-  let ai_confidence = Int64.float_of_bits (Bytes.get_int64_be buf 16) in
-  { Ast.microprice; imbalance; ai_confidence }
+  let microprice       = Int64.float_of_bits (Bytes.get_int64_be buf 0) in
+  let imbalance        = Int64.float_of_bits (Bytes.get_int64_be buf 8) in
+  let ai_confidence    = Int64.float_of_bits (Bytes.get_int64_be buf 16) in
+  let kalshi_ask_price = Int64.float_of_bits (Bytes.get_int64_be buf 24) in
+  { Ast.microprice; imbalance; ai_confidence; kalshi_ask_price }
 
 (** Encode a [trade_action] as a single byte.
     The byte values are chosen to match Java's [TradeAction.fromByte]:
@@ -59,5 +60,5 @@ let string_of_action (action : Ast.trade_action) : string =
 
 (** Pretty-print a market state for logging. *)
 let string_of_market_state (s : Ast.market_state) : string =
-  Printf.sprintf "microprice=$%.2f | imbalance=%.4f | ai_conf=%.4f"
-    s.microprice s.imbalance s.ai_confidence
+  Printf.sprintf "microprice=$%.2f | imbalance=%.4f | ai_conf=%.4f | kalshi_ask=%.4f"
+    s.microprice s.imbalance s.ai_confidence s.kalshi_ask_price

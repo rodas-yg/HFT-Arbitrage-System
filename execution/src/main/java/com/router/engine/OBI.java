@@ -23,10 +23,17 @@ public class OBI implements Runnable {
      * Volatile for lock-free cross-thread visibility.
      */
     private volatile double latestAiSignal = 0.0;
+    
+    private volatile double latestKalshiBid = 0.0;
+    private volatile double latestKalshiAsk = 0.0;
 
     /** AI prediction receive buffer: 16 bytes = 2 × float64 big-endian */
     private static final int AI_PACKET_SIZE = 16;
     private static final int AI_PORT = 8889;
+
+    /** Kalshi receive buffer: 24 bytes = uint64 + 2 × float64 big-endian */
+    private static final int KALSHI_PACKET_SIZE = 24;
+    private static final int KALSHI_PORT = 8891;
 
     /**
      * UDP broadcast channel for telemetry (Port 9000).
@@ -107,7 +114,7 @@ public class OBI implements Runnable {
      *
      * If ml.py is not running, this thread blocks harmlessly on receive().
      */
-    private void startAiReceiver() {
+    public void startAiReceiver() {
         Thread aiThread = new Thread(() -> {
             try {
                 DatagramChannel aiChannel = DatagramChannel.open();
@@ -136,6 +143,35 @@ public class OBI implements Runnable {
         aiThread.start();
     }
 
+    public void startKalshiReceiver() {
+        Thread kalshiThread = new Thread(() -> {
+            try {
+                DatagramChannel kalshiChannel = DatagramChannel.open();
+                kalshiChannel.bind(new InetSocketAddress("127.0.0.1", KALSHI_PORT));
+                kalshiChannel.configureBlocking(true);
+
+                ByteBuffer kalshiBuf = ByteBuffer.allocateDirect(KALSHI_PACKET_SIZE);
+                kalshiBuf.order(ByteOrder.BIG_ENDIAN);
+
+                System.out.println("[Java] Kalshi receiver listening on UDP 127.0.0.1:" + KALSHI_PORT);
+
+                while (true) {
+                    kalshiBuf.clear();
+                    kalshiChannel.receive(kalshiBuf);
+                    if (kalshiBuf.position() >= KALSHI_PACKET_SIZE) {
+                        // skip timestamp (8 bytes)
+                        latestKalshiBid = kalshiBuf.getDouble(8);
+                        latestKalshiAsk = kalshiBuf.getDouble(16);
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("[Java] Kalshi receiver failed: " + e.getMessage());
+            }
+        }, "kalshi-receiver");
+        kalshiThread.setDaemon(true);
+        kalshiThread.start();
+    }
+
     @Override
     public void run() {
         System.out.println("Strategy thread started. Waiting for data...");
@@ -146,8 +182,6 @@ public class OBI implements Runnable {
         // Initialize telemetry broadcast
         initTelemetry();
 
-        // Start AI prediction receiver (UDP 8889 from ml.py)
-        startAiReceiver();
 
         while (true) {
             Trade event = ringBuffer.poll();
@@ -172,7 +206,7 @@ public class OBI implements Runnable {
                 if (strategyClient != null && strategyClient.isConnected()) {
                     try {
                         long strategyStart = System.nanoTime();
-                        action = strategyClient.evaluate(microprice, imbalance, latestAiSignal);
+                        action = strategyClient.evaluate(microprice, imbalance, latestAiSignal, latestKalshiAsk);
                         long strategyLatencyNs = System.nanoTime() - strategyStart;
 
                         // Log strategy latency periodically
