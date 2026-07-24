@@ -55,7 +55,7 @@ class HftLstm(nn.Module):
         return self.classifier(lstm_out[:, -1, :])
 
 
-#  Feature Computation — mirrors market_recorder.py pure functions
+# Feature Computation (mirrors market_recorder.py pure functions)
 
 def compute_microprice(bid_px: float, bid_qty: float,
                        ask_px: float, ask_qty: float) -> float:
@@ -112,7 +112,7 @@ def compute_microprice_momentum(current: float, history: deque,
     return (current - old) / old
 
 
-#  Z-Score Normalization — parameters from training (normalize.py output)
+# Z-Score Normalization (parameters from training)
 
 FEATURE_NAMES = [
     "obi", "spread_bps", "obi_ema_5",
@@ -154,7 +154,7 @@ AI_DEST = ("127.0.0.1", 8889)
 AI_PACKET_FMT = ">dd"        # 2 × float64 big-endian = 16 bytes
 
 
-#  Inference Loop
+# Inference Loop
 
 async def run_ai(shutdown_event: asyncio.Event):
     """Main inference loop — load model, stream data, predict, send to Java."""
@@ -179,7 +179,7 @@ async def run_ai(shutdown_event: asyncio.Event):
     prob_down = 0.0
     prob_up = 0.0
 
-    # ── WebSocket connection ───
+    # WebSocket connection
     symbol = os.getenv("SYMBOL", "btcusdt").lower()
     url = f"wss://data-stream.binance.vision/ws/{symbol}@depth5@100ms"
     ssl_context = ssl.create_default_context(cafile=certifi.where())
@@ -225,7 +225,7 @@ async def run_ai(shutdown_event: asyncio.Event):
 
                     microprice_history.append(micro)
 
-                    #Z-score normalize 
+                    # Z-score normalize 
                     features = [
                         z_score("obi", obi),
                         z_score("spread_bps", spread),

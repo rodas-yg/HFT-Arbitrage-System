@@ -54,10 +54,9 @@ let write_exact (fd : Unix.file_descr) (buf : Bytes.t) : unit =
 (** Handle a single connected client.
     Runs in a tight loop reading requests and writing responses.
     The connection is persistent — Java keeps it open for the session. *)
-let handle_client (client_fd : Unix.file_descr) : unit =
+let handle_client (client_fd : Unix.file_descr) (strategy_pipeline : Ast.expr list) : unit =
   Printf.printf "[OCaml] Client connected. Evaluating strategy pipeline...\n%!";
   let eval_count = ref 0 in
-  let strategy_pipeline = Strategies.default_pipeline in
   (try
     while true do
       let request_buf = read_exact client_fd Wire.request_size in
@@ -113,11 +112,21 @@ let () =
 
   Printf.printf " OCaml Strategy Engine v1.0\n%!";
   Printf.printf " Listening on: %s\n%!" socket_path;
-  Printf.printf " Strategies loaded: %d\n%!" (List.length Strategies.default_pipeline);
-  Printf.printf " Protocol: 24B request -> 1B response\n%!";
+  
+  let mode = ref "binance" in
+  Arg.parse [("--mode", Arg.Set_string mode, "Set execution mode (binance or kalshi)")] (fun _ -> ()) "strategy_server.ml --mode <mode>";
+
+  let strategy_pipeline = match !mode with
+    | "kalshi" -> Strategies.kalshi_pipeline
+    | _ -> Strategies.default_pipeline
+  in
+
+  Printf.printf " Mode: %s\n%!" !mode;
+  Printf.printf " Strategies loaded: %d\n%!" (List.length strategy_pipeline);
+  Printf.printf " Protocol: 32B request -> 1B response\n%!";
 
   (* Accept loop — handles one client at a time (single Java engine) *)
   while true do
     let (client_fd, _addr) = Unix.accept server_fd in
-    handle_client client_fd
+    handle_client client_fd strategy_pipeline
   done

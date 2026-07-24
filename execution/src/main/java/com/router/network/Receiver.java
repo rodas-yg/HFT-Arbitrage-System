@@ -1,4 +1,5 @@
 package com.router.network;
+import com.router.engine.ConfigManager;
 import com.router.engine.OBI;
 import com.router.engine.Padding;
 import com.router.engine.RingBuffer;
@@ -18,8 +19,18 @@ public class Receiver {
 
     public static void main(String[] args) throws IOException {
         RingBuffer ringBuffer = new RingBuffer(1024);
+        OBI obi = new OBI(ringBuffer);
 
-        Thread strategyThread = new Thread(new OBI(ringBuffer));
+        // Start AI Gateway — listens on UDP 8889 for ml.py predictions
+        // and continuously overwrites the volatile AI signal in OBI
+        obi.startAiReceiver();
+
+        ConfigManager config = ConfigManager.getInstance();
+        if ("KALSHI".equals(config.getExecutionMode())) {
+            obi.startKalshiReceiver();
+        }
+
+        Thread strategyThread = new Thread(obi);
         strategyThread.start();
 
         ByteBuffer buffer = ByteBuffer.allocateDirect(40);

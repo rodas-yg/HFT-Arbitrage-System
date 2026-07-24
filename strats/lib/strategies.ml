@@ -138,3 +138,22 @@ let default_pipeline : expr list = [
   mean_reversion;
   mean_reversion_sell;
 ]
+
+(** Lead-Lag Arbitrage
+    Arbitrage Kalshi probability vs Binance AI up probability
+*)
+let lead_lag_arbitrage : expr =
+  IfThenElse (
+    And (
+      Compare (AiConfidence, Gt, 0.85),
+      Compare (KalshiAskPrice, Lt, 0.50)
+    ),
+    Buy,
+    Hold
+  )
+
+(** The Kalshi Arbitrage pipeline.
+    Ordered by priority: only executes Lead-Lag Arbitrage. *)
+let kalshi_pipeline : expr list = [
+  lead_lag_arbitrage;
+]

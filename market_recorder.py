@@ -44,7 +44,7 @@ import pyarrow.parquet as pq
 import orjson
 
 
-#  Data Source Abstraction
+# Data Source Abstraction
 
 
 class Tick(NamedTuple):
@@ -140,9 +140,7 @@ class BinanceSource(DataSource):
                 await asyncio.sleep(3)
 
 
-# 
-#  Feature Computation (pure functions — no side effects)
-# 
+# Feature Computation (pure functions without side effects)
 
 def compute_midprice(bid_px: float, ask_px: float) -> float:
     """Arithmetic midpoint: (bid + ask) / 2"""
@@ -213,7 +211,7 @@ def compute_microprice_momentum(current: float, history: deque,
     return (current - old) / old
 
 
-#  Parquet Writer — incremental append with row-groups
+# Parquet Writer (incremental append with row-groups)
 
 
 PARQUET_SCHEMA = pa.schema([
@@ -374,7 +372,7 @@ async def record(source: DataSource,
 
             total_ticks += 1
 
-            # ── Flush check 
+            # Flush check
             now = time.monotonic()
             if (len(batch) >= BATCH_FLUSH_SIZE
                     or (now - last_flush_time) >= FLUSH_INTERVAL_S):

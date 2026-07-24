@@ -33,7 +33,7 @@ import java.nio.file.Path;
 public class StrategyClient implements AutoCloseable {
 
     private static final String SOCKET_PATH = "/tmp/gsr_strategy.sock";
-    private static final int REQUEST_SIZE = 24;   // 3 × 8 bytes
+    private static final int REQUEST_SIZE = 32;   // 4 × 8 bytes
     private static final int RESPONSE_SIZE = 1;
 
     private final SocketChannel channel;
@@ -68,16 +68,18 @@ public class StrategyClient implements AutoCloseable {
      * @param microprice    Volume-weighted midpoint price
      * @param imbalance     Order Book Imbalance ∈ [-1.0, 1.0]
      * @param aiConfidence  ML model confidence ∈ [0.0, 1.0]
+     * @param kalshiAsk     Kalshi YES contract ask price
      * @return              The strategy's trade action (BUY, SELL, or HOLD)
      * @throws IOException  if the socket connection is broken
      */
-    public TradeAction evaluate(double microprice, double imbalance, double aiConfidence)
+    public TradeAction evaluate(double microprice, double imbalance, double aiConfidence, double kalshiAsk)
             throws IOException {
-        // Pack 3 doubles into 24 bytes (big-endian)
+        // Pack 4 doubles into 32 bytes (big-endian)
         sendBuf.clear();
         sendBuf.putDouble(microprice);
         sendBuf.putDouble(imbalance);
         sendBuf.putDouble(aiConfidence);
+        sendBuf.putDouble(kalshiAsk);
         sendBuf.flip();
 
         // Write to OCaml
