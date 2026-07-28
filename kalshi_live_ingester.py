@@ -35,8 +35,8 @@ load_dotenv()
 
 # Configuration
 
-KALSHI_API_BASE = "https://api.elections.kalshi.com/trade-api/v2"
-KALSHI_WS_URL = "wss://external-api-ws.kalshi.com/trade-api/ws/v2"
+KALSHI_API_BASE = "https://demo-api.kalshi.co/trade-api/v2"
+KALSHI_WS_URL = "wss://demo-api.kalshi.co/trade-api/ws/v2"
 
 # UDP destination for Java Receiver
 JAVA_UDP_HOST = "127.0.0.1"
@@ -119,6 +119,8 @@ async def get_target_btc_market() -> str:
             active_markets.sort(key=lambda x: x[1])
             if active_markets:
                 target = active_markets[0][0]
+                # STRICT 1-MARKET BTC-ONLY ENFORCEMENT
+                assert "KXBTC" in target, f"CRITICAL: Selected market {target} is not a BTC market!"
                 print(f"[Kalshi] Selected target market: {target} (expires nearest)")
                 return target
     return ""

@@ -1,17 +1,6 @@
 #!/usr/bin/env python3
 """
-kalshi_recorder.py — ML Training Data Collector for Kalshi Crypto Prediction Markets
-
-This script connects to the Kalshi V2 API to:
-1. Dynamically discover active Crypto markets via REST.
-2. Subscribe to live order book WebSockets (`orderbook_delta`).
-3. Compute universal microstructure features (Midprice, Microprice, OBI, Spread, Time to Expiry) on the "Yes" contract.
-4. Batch and flush data to a Parquet file to prevent memory leaks during tick sparsity.
-
-Usage:
-    export KALSHI_KEY_ID="your_key_id"
-    export KALSHI_PRIVATE_KEY="/path/to/private_key.pem" # or the PEM string itself
-    python kalshi_recorder.py
+kalshi_recorder.py —  Collector for Kalshi Crypto Prediction Markets
 """
 
 import asyncio
@@ -39,8 +28,8 @@ load_dotenv()
 
 # Configuration
 
-KALSHI_API_BASE = "https://api.elections.kalshi.com/trade-api/v2"
-KALSHI_WS_URL = "wss://external-api-ws.kalshi.com/trade-api/ws/v2"
+KALSHI_API_BASE = "https://demo-api.kalshi.co/trade-api/v2"
+KALSHI_WS_URL = "wss://demo-api.kalshi.co/trade-api/ws/v2"
 
 # Dual-trigger flush parameters
 FLUSH_BATCH_SIZE = 10_000
@@ -63,21 +52,18 @@ PARQUET_SCHEMA = pa.schema([
     ("time_to_expiry_seconds", pa.float64()),
 ])
 
-# Create SSL Context using certifi to fix MacOS Python SSL issues
 ssl_context = ssl.create_default_context(cafile=certifi.where())
 
-# Authentication (RSA-PSS)
 
-def get_auth_headers(method: str, path: str) -> dict:
+def get_auth_headers(method, path) -> dict:
     """Generates Kalshi V2 RSA-PSS authentication headers."""
     key_id = os.environ.get("KALSHI_KEY_ID")
-    priv_key_env = os.environ.get("KALSHI_PRIVATE_KEY")
+    priv_key_env = os.environ.get("KALSHI_PRIVATE_KEY") 
     
     if not key_id or not priv_key_env:
-        print("[WARN] KALSHI_KEY_ID or KALSHI_PRIVATE_KEY missing. Attempting without auth (may fail).")
+        print(" KALSHIKEYID or KALSHIPRIVATEKEY missing.")
         return {}
 
-    # Load private key (from file path or raw string)
     if os.path.exists(priv_key_env):
         with open(priv_key_env, "rb") as f:
             key_data = f.read()
@@ -87,10 +73,8 @@ def get_auth_headers(method: str, path: str) -> dict:
     try:
         private_key = serialization.load_pem_private_key(key_data, password=None)
         if not isinstance(private_key, rsa.RSAPrivateKey):
-            print("[ERROR] Loaded private key is not an RSA private key.")
             return {}
     except Exception as e:
-        print(f"[ERROR] Failed to load private key: {e}")
         return {}
 
     timestamp = str(int(time.time() * 1000))
@@ -111,14 +95,14 @@ def get_auth_headers(method: str, path: str) -> dict:
         "KALSHI-ACCESS-TIMESTAMP": timestamp,
     }
 
-# Market Discovery (REST)
+# rest
 
-async def discover_crypto_markets() -> Dict[str, float]:
+async def discover_crypto_markets():
     """
     Fetches active Crypto markets from Kalshi REST API.
     Returns a dictionary mapping ticker -> expiration_unix_timestamp.
     """
-    print("[Discovery] Querying Kalshi REST API for active Crypto markets...")
+
     markets_dict = {}
     
     headers = get_auth_headers("GET", "/trade-api/v2/markets")
@@ -147,11 +131,31 @@ async def discover_crypto_markets() -> Dict[str, float]:
                         except Exception as e:
                             print(f"[WARN] Could not parse close_time for {ticker}: {e}")
                             
-    print(f"[Discovery] Found {len(markets_dict)} active Crypto markets.")
-    for t in list(markets_dict.keys())[:5]:
-        print(f"  - {t}")
-    if len(markets_dict) > 5: print("  ...")
-    return markets_dict
+    if not markets_dict:
+        print("No active Crypto markets found.")
+        return {}
+
+    print(f"\n[Discovery] Found {len(markets_dict)} active Crypto markets.")
+    
+    # Sort by expiration timestamp
+    sorted_markets = sorted(markets_dict.items(), key=lambda x: x[1])
+    
+    for idx, (ticker, exp_ts) in enumerate(sorted_markets):
+        exp_dt = datetime.fromtimestamp(exp_ts, timezone.utc)
+        print(f"  [{idx}] [Exp: {exp_dt.strftime('%Y-%m-%d %H:%M')} UTC] {ticker}")
+        
+    loop = asyncio.get_event_loop()
+    while True:
+        try:
+            choice_str = await loop.run_in_executor(None, input, "\nSelect a market by number: ")
+            choice = int(choice_str)
+            if 0 <= choice < len(sorted_markets):
+                selected_ticker, selected_ts = sorted_markets[choice]
+                print(f"[Discovery] Locked onto: {selected_ticker}")
+                return {selected_ticker: selected_ts}
+        except (ValueError, EOFError):
+            pass
+        print("Invalid choice, try again.")
 
 # Math & Universal Features
 

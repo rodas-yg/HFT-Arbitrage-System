@@ -12,7 +12,6 @@
     - Target latency: < 1µs for trees of depth ≤ 10
 
 *)
-
 let resolve_field (state : Ast.market_state) (field : Ast.market_field) : float =
   match field with
   | Ast.Microprice    -> state.microprice
@@ -34,8 +33,6 @@ let compare_op (op : Ast.comparison) (lhs : float) (rhs : float) : bool =
     - [And (a, b)]: if [a] is false, [b] is never evaluated
     - [Or (a, b)]:  if [a] is true,  [b] is never evaluated
 
-    This matches OCaml's native [&&] and [||] operators which are
-    guaranteed to short-circuit by the language specification.
 
     @param state  The current market snapshot from Java
     @param expr   The AST node to evaluate
