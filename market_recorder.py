@@ -13,9 +13,6 @@ Features recorded per tick:
            obi_ema_5, microprice_momentum
   Meta:   source
 
-Forward-looking labels (5s, 30s direction/return) are computed offline by
-normalize.py since they require future data not available at recording time.
-
 Usage:
     python market_recorder.py                          # Binance BTC/USDT
     SYMBOL=ethusdt python market_recorder.py            # Binance ETH/USDT
@@ -93,7 +90,8 @@ class BinanceSource(DataSource):
 
     def __init__(self, symbol: str = "btcusdt"):
         self._symbol = symbol.lower()
-        self._url = f"wss://data-stream.binance.vision/ws/{self._symbol}@bookTicker"
+        # USE THE HIGH-SPEED PRODUCTION ENDPOINT, NOT THE VISION/TESTNET ONE
+        self._url = f"wss://stream.binance.us:9443/ws/{self._symbol}@bookTicker"
 
     @property
     def name(self) -> str:
@@ -238,46 +236,42 @@ PARQUET_SCHEMA = pa.schema([
 
 
 class ParquetFlusher:
-    """Incremental Parquet writer — appends row-groups without re-reading.
-
-    Each flush writes a new row-group to the file. The file is finalized
-    (footer written) when close() is called.
+    """Writes Parquet chunks as individual files so they are immediately readable.
+    
+    Each flush creates a new fully-formed Parquet file with a timestamp suffix.
     """
 
-    def __init__(self, path: str, schema: pa.Schema):
-        self._path = path
+    def __init__(self, prefix_path: str, schema: pa.Schema):
+        # Prefix path like data/features_btcusdt_20260727_033001
+        self._prefix_path = prefix_path.replace(".parquet", "")
         self._schema = schema
-        self._writer: pq.ParquetWriter | None = None
 
     def flush(self, batch: list[dict]) -> int:
-        """Convert batch to a PyArrow table and append as a new row-group."""
+        """Convert batch to a PyArrow table and save as a new Parquet file."""
         if not batch:
             return 0
 
         table = pa.Table.from_pylist(batch, schema=self._schema)
+        
+        dir_name = os.path.dirname(self._prefix_path)
+        if dir_name:
+            os.makedirs(dir_name, exist_ok=True)
+            
+        ts = int(time.time())
+        output_file = f"{self._prefix_path}_{ts}.parquet"
 
-        if self._writer is None:
-            os.makedirs(os.path.dirname(self._path) or ".", exist_ok=True)
-            self._writer = pq.ParquetWriter(
-                self._path,
-                self._schema,
-                compression="snappy",
-            )
-
-        self._writer.write_table(table)
+        pq.write_table(table, output_file, compression="snappy")
         return len(batch)
 
     def close(self):
-        """Finalize the Parquet footer and close the file."""
-        if self._writer is not None:
-            self._writer.close()
-            self._writer = None
+        """No-op for individual file chunks."""
+        pass
 
 
 # 
 
 BATCH_FLUSH_SIZE = 10_000
-FLUSH_INTERVAL_S = 300       # 5 minutes
+FLUSH_INTERVAL_S = 60       # 1 minute
 MOMENTUM_WINDOW = 10
 EMA_ALPHA_5 = 2.0 / (5 + 1)  # α for 5-tick EMA = 0.333
 
@@ -319,11 +313,17 @@ async def record(source: DataSource,
     print(f" Schema     : {len(PARQUET_SCHEMA)} columns")
     print("=" * 60)
 
+    first_tick_received = False
+
     try:
         # pyrefly: ignore [not-iterable]
         async for tick in source.stream():
             if shutdown_event.is_set():
                 break
+
+            if not first_tick_received:
+                print(f"[recorder] ⚡ First tick received! The firehose is flowing. (Silencing terminal to protect latency...)")
+                first_tick_received = True
 
             # Check duration limit
             if max_duration_s and (time.monotonic() - start_time) >= max_duration_s:
