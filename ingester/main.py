@@ -26,7 +26,6 @@ async def listen_stream():
                 bid_price, bid_quantity = float(data['bids'][0][0]), float(data['bids'][0][1])
                 ask_price, ask_quantity = float(data['asks'][0][0]), float(data['asks'][0][1])
                 payload = struct.pack(frmt, time_now, bid_price, bid_quantity, ask_price, ask_quantity)
-                print(f"Sending payload: {payload.hex()}")
                 cast.sendto(payload, ("127.0.0.1", 8888))
             
         except websockets.ConnectionClosed as e:

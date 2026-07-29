@@ -1,64 +1,36 @@
 (** wire.ml — Binary serialization/deserialization for IPC
-
-    This module handles the conversion between raw bytes on the Unix Domain
-    Socket and OCaml types. The wire protocol is designed for minimal latency:
-
-    Request (Java → OCaml):  24 bytes
-      [microprice:f64be | imbalance:f64be | ai_confidence:f64be]
-
-    Response (OCaml → Java): 1 byte
-      [0x00 = Hold | 0x01 = Buy | 0x02 = Sell]
-
-    Total wire overhead: 25 bytes per evaluation round-trip.
-    All floats are IEEE 754 double-precision, big-endian (network byte order),
-    matching Java's [ByteBuffer.putDouble] with [ByteOrder.BIG_ENDIAN].
 *)
 
-(** Size of the incoming market state payload in bytes.
-    4 fields × 8 bytes per float64 = 32 bytes. *)
-let request_size = 32
+let request_size = 33
 
-(** Size of the outgoing trade action response in bytes. *)
 let response_size = 1
 
-(** Decode 24 bytes (3 × big-endian float64) into a [market_state].
+(** Decode 33 bytes (1 byte mode + 4 × big-endian float64) into a [mode, market_state]. *)
+let decode_market_state (buf : Bytes.t) : (int * Ast.market_state) =
+  let mode                 = int_of_char (Bytes.get buf 0) in
+  let microprice           = Int64.float_of_bits (Bytes.get_int64_be buf 1) in
+  let binance_imbalance    = Int64.float_of_bits (Bytes.get_int64_be buf 9) in
+  let ai_prediction_up     = Int64.float_of_bits (Bytes.get_int64_be buf 17) in
+  let d4                   = Int64.float_of_bits (Bytes.get_int64_be buf 25) in
+  
+  let ai_prediction_down, polymarket_ask_price =
+    if mode = 0 then (d4, 0.0) else (0.0, d4)
+  in
 
-    Uses [Bytes.get_int64_be] to read raw 64-bit integers, then
-    reinterprets them as IEEE 754 doubles via [Int64.float_of_bits].
-    This avoids any endianness issues — the bit pattern is preserved
-    exactly as Java wrote it.
+  (mode, { Ast.microprice; binance_imbalance; ai_prediction_up; ai_prediction_down; polymarket_ask_price })
 
-    @param buf  A [Bytes.t] of length >= 24
-    @return     The decoded market state record *)
-let decode_market_state (buf : Bytes.t) : Ast.market_state =
-  let microprice       = Int64.float_of_bits (Bytes.get_int64_be buf 0) in
-  let imbalance        = Int64.float_of_bits (Bytes.get_int64_be buf 8) in
-  let ai_confidence    = Int64.float_of_bits (Bytes.get_int64_be buf 16) in
-  let kalshi_ask_price = Int64.float_of_bits (Bytes.get_int64_be buf 24) in
-  { Ast.microprice; imbalance; ai_confidence; kalshi_ask_price }
-
-(** Encode a [trade_action] as a single byte.
-    The byte values are chosen to match Java's [TradeAction.fromByte]:
-    - Hold = 0x00
-    - Buy  = 0x01
-    - Sell = 0x02
-
-    @param action  The trade action to encode
-    @return        A single [char] (byte) *)
 let encode_action (action : Ast.trade_action) : char =
   match action with
   | Ast.Hold -> '\x00'
   | Ast.Buy  -> '\x01'
   | Ast.Sell -> '\x02'
 
-(** Pretty-print a trade action for logging. *)
 let string_of_action (action : Ast.trade_action) : string =
   match action with
   | Ast.Hold -> "HOLD"
   | Ast.Buy  -> "BUY"
   | Ast.Sell -> "SELL"
 
-(** Pretty-print a market state for logging. *)
 let string_of_market_state (s : Ast.market_state) : string =
-  Printf.sprintf "microprice=$%.2f | imbalance=%.4f | ai_conf=%.4f | kalshi_ask=%.4f"
-    s.microprice s.imbalance s.ai_confidence s.kalshi_ask_price
+  Printf.sprintf "microprice=$%.2f | imbalance=%.4f | ai_up=%.4f | ai_down=%.4f | poly_ask=%.4f"
+    s.microprice s.binance_imbalance s.ai_prediction_up s.ai_prediction_down s.polymarket_ask_price

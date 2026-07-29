@@ -15,10 +15,11 @@ THIS SHI IS JUST VOCAB FOR THE REST OF THE PROJECT
 
 
 type market_state = {
-  microprice       : float;  (** Volume-weighted midpoint: (bidQty*ask + askQty*bid) / totalVol *)
-  imbalance        : float;  (** Order Book Imbalance ∈ [-1.0, 1.0]. Positive = bullish *)
-  ai_confidence    : float;  (** ML model confidence ∈ [-1.0, 1.0] *)
-  kalshi_ask_price : float;  (** Kalshi "Yes" contract ask probability *)
+  microprice           : float;  (** Volume-weighted midpoint *)
+  binance_imbalance    : float;  (** Order Book Imbalance ∈ [-1.0, 1.0]. Positive = bullish *)
+  ai_prediction_up     : float;  (** ML model prediction up prob *)
+  ai_prediction_down   : float;  (** ML model prediction down prob *)
+  polymarket_ask_price : float;  (** Polymarket "Yes" contract ask probability *)
 }
 
 type trade_action = 
@@ -37,9 +38,10 @@ type comparison =
     These correspond 1:1 to fields in [market_state]*)
 type market_field = 
   | Microprice 
-  | Imbalance 
-  | AiConfidence
-  | KalshiAskPrice
+  | BinanceImbalance 
+  | AiPredictionUp
+  | AiPredictionDown
+  | PolymarketAskPrice
 
 (** The AST node — a recursive algebraic data type.
 
