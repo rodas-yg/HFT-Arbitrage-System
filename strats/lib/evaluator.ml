@@ -14,10 +14,11 @@
 *)
 let resolve_field (state : Ast.market_state) (field : Ast.market_field) : float =
   match field with
-  | Ast.Microprice    -> state.microprice
-  | Ast.Imbalance     -> state.imbalance
-  | Ast.AiConfidence  -> state.ai_confidence
-  | Ast.KalshiAskPrice -> state.kalshi_ask_price
+  | Ast.Microprice         -> state.microprice
+  | Ast.BinanceImbalance   -> state.binance_imbalance
+  | Ast.AiPredictionUp     -> state.ai_prediction_up
+  | Ast.AiPredictionDown   -> state.ai_prediction_down
+  | Ast.PolymarketAskPrice -> state.polymarket_ask_price
 
 let compare_op (op : Ast.comparison) (lhs : float) (rhs : float) : bool =
   match op with

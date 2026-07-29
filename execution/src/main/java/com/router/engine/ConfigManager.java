@@ -11,16 +11,16 @@ public class ConfigManager {
 
     private static ConfigManager instance = null;
 
-    private String executionMode = "BINANCE"; // Default
+    private TradingMode executionMode = TradingMode.BINANCE_ONLY; // Default
 
     private ConfigManager() {
         try {
             String content = Files.readString(Path.of("config.json"));
             // Simple parsing to avoid extra dependencies like Gson/Jackson for a single field
-            if (content.contains("\"execution_mode\"") && content.contains("\"KALSHI\"")) {
-                executionMode = "KALSHI";
+            if (content.contains("\"execution_mode\"") && content.contains("\"ARBITRAGE\"")) {
+                executionMode = TradingMode.PREDICTION_MARKET_ARBITRAGE;
             } else if (content.contains("\"execution_mode\"") && content.contains("\"BINANCE\"")) {
-                executionMode = "BINANCE";
+                executionMode = TradingMode.BINANCE_ONLY;
             }
             System.out.println("[Java] ConfigManager loaded execution_mode: " + executionMode);
         } catch (IOException e) {
@@ -35,7 +35,7 @@ public class ConfigManager {
         return instance;
     }
 
-    public String getExecutionMode() {
+    public TradingMode getExecutionMode() {
         return executionMode;
     }
 }

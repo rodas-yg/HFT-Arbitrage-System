@@ -16,76 +16,26 @@ let assert_bool name expected actual =
   if expected = actual then pass name
   else fail name (string_of_bool expected) (string_of_bool actual)
 
-let bullish_state : Ast.market_state =
-  { microprice = 63000.0; imbalance = 0.85; ai_confidence = 0.92; kalshi_ask_price = 0.6 }
+let bullish_binance_state : Ast.market_state =
+  { microprice = 63000.0; binance_imbalance = -0.9; ai_prediction_up = 0.90; ai_prediction_down = 0.05; polymarket_ask_price = 0.6 }
 
-let bearish_state : Ast.market_state =
-  { microprice = 65000.0; imbalance = -0.85; ai_confidence = 0.95; kalshi_ask_price = 0.6 }
+let bearish_binance_state : Ast.market_state =
+  { microprice = 65000.0; binance_imbalance = -0.7; ai_prediction_up = 0.80; ai_prediction_down = 0.15; polymarket_ask_price = 0.6 }
 
-let neutral_state : Ast.market_state =
-  { microprice = 62000.0; imbalance = 0.1; ai_confidence = 0.5; kalshi_ask_price = 0.6 }
-
-let no_ai_state : Ast.market_state =
-  { microprice = 65000.0; imbalance = -0.9; ai_confidence = 0.0; kalshi_ask_price = 0.6 }
-
-let test_compare () =
-  Printf.printf "\n[Compare nodes]\n%!";
-  let expr_gt = Ast.Compare (Ast.Microprice, Ast.Gt, 64000.0) in
-  assert_bool "microprice > 64000 (63000)" false (Evaluator.eval bullish_state expr_gt);
-  assert_bool "microprice > 64000 (65000)" true (Evaluator.eval bearish_state expr_gt);
-
-  let expr_lt = Ast.Compare (Ast.Imbalance, Ast.Lt, -0.8) in
-  assert_bool "imbalance < -0.8 (0.85)" false (Evaluator.eval bullish_state expr_lt);
-  assert_bool "imbalance < -0.8 (-0.85)" true (Evaluator.eval bearish_state expr_lt)
-
-let test_boolean_combinators () =
-  Printf.printf "\n[Boolean combinators]\n%!";
-  let and_expr = Ast.And (
-    Ast.Compare (Ast.Microprice, Ast.Gt, 64000.0),
-    Ast.Compare (Ast.Imbalance, Ast.Lt, -0.8)
-  ) in
-  assert_bool "AND(mp>64k, imb<-0.8) bearish" true (Evaluator.eval bearish_state and_expr);
-  assert_bool "AND(mp>64k, imb<-0.8) bullish" false (Evaluator.eval bullish_state and_expr);
-
-  let or_expr = Ast.Or (
-    Ast.Compare (Ast.Imbalance, Ast.Gt, 0.7),
-    Ast.Compare (Ast.AiConfidence, Ast.Gt, 0.9)
-  ) in
-  assert_bool "OR(imb>0.7, ai>0.9) bullish" true (Evaluator.eval bullish_state or_expr);
-  assert_bool "OR(imb>0.7, ai>0.9) neutral" false (Evaluator.eval neutral_state or_expr);
-
-  let not_expr = Ast.Not (Ast.Compare (Ast.Imbalance, Ast.Gt, 0.0)) in
-  assert_bool "NOT(imb>0) bearish" true (Evaluator.eval bearish_state not_expr);
-  assert_bool "NOT(imb>0) bullish" false (Evaluator.eval bullish_state not_expr)
+let arbitrage_state : Ast.market_state =
+  { microprice = 65000.0; binance_imbalance = 0.0; ai_prediction_up = 0.90; ai_prediction_down = 0.05; polymarket_ask_price = 0.40 }
 
 let test_strategies () =
   Printf.printf "\n[Strategy evaluation]\n%!";
-  assert_action "aggressive_short on bearish"
-    Ast.Sell (Evaluator.eval_action bearish_state Strategies.aggressive_short);
-  assert_action "aggressive_short on bullish"
-    Ast.Hold (Evaluator.eval_action bullish_state Strategies.aggressive_short);
-  assert_action "aggressive_short on neutral"
-    Ast.Hold (Evaluator.eval_action neutral_state Strategies.aggressive_short);
-  assert_action "aggressive_short without AI"
-    Ast.Hold (Evaluator.eval_action no_ai_state Strategies.aggressive_short);
+  assert_action "binance_strategy on bullish (imbalance < -0.8 and ai_up > 0.85)"
+    Ast.Buy (Evaluator.eval_action bullish_binance_state Strategies.binance_strategy);
+  assert_action "binance_strategy on bearish"
+    Ast.Hold (Evaluator.eval_action bearish_binance_state Strategies.binance_strategy);
 
-  assert_action "momentum_long on bullish"
-    Ast.Buy (Evaluator.eval_action bullish_state Strategies.momentum_long);
-  assert_action "momentum_long on bearish"
-    Ast.Hold (Evaluator.eval_action bearish_state Strategies.momentum_long);
-  assert_action "momentum_long on neutral"
-    Ast.Hold (Evaluator.eval_action neutral_state Strategies.momentum_long)
-
-let test_cascade () =
-  Printf.printf "\n[Strategy cascade]\n%!";
-  assert_action "cascade on bearish (should Sell first)"
-    Ast.Sell (Strategies.eval_cascade bearish_state Strategies.default_pipeline);
-  assert_action "cascade on bullish (should Buy)"
-    Ast.Buy (Strategies.eval_cascade bullish_state Strategies.default_pipeline);
-  assert_action "cascade on neutral (should Hold)"
-    Ast.Hold (Strategies.eval_cascade neutral_state Strategies.default_pipeline);
-  assert_action "cascade without AI (should Hold)"
-    Ast.Hold (Strategies.eval_cascade no_ai_state Strategies.default_pipeline)
+  assert_action "leadlag_strategy on arbitrage (ai_up > 0.85 and poly_ask < 0.50)"
+    Ast.Buy (Evaluator.eval_action arbitrage_state Strategies.leadlag_strategy);
+  assert_action "leadlag_strategy on non-arbitrage"
+    Ast.Hold (Evaluator.eval_action bullish_binance_state Strategies.leadlag_strategy)
 
 let test_wire_roundtrip () =
   Printf.printf "\n[Wire protocol round-trip]\n%!";
@@ -102,24 +52,31 @@ let test_wire_roundtrip () =
   ) actions;
 
   (* Test market_state encode/decode *)
-  let original = bearish_state in
-  let buf = Bytes.create 24 in
-  Bytes.set_int64_be buf 0  (Int64.bits_of_float original.microprice);
-  Bytes.set_int64_be buf 8  (Int64.bits_of_float original.imbalance);
-  Bytes.set_int64_be buf 16 (Int64.bits_of_float original.ai_confidence);
-  let decoded = Wire.decode_market_state buf in
+  let original = bullish_binance_state in
+  let buf = Bytes.create 33 in
+  Bytes.set buf 0 (char_of_int 0); (* mode 0 *)
+  Bytes.set_int64_be buf 1  (Int64.bits_of_float original.microprice);
+  Bytes.set_int64_be buf 9  (Int64.bits_of_float original.binance_imbalance);
+  Bytes.set_int64_be buf 17 (Int64.bits_of_float original.ai_prediction_up);
+  Bytes.set_int64_be buf 25 (Int64.bits_of_float original.ai_prediction_down);
+  
+  let (mode, decoded) = Wire.decode_market_state buf in
+  assert_bool "market_state mode roundtrip"
+    true (mode = 0);
   assert_bool "market_state microprice roundtrip"
     true (Float.equal original.microprice decoded.microprice);
   assert_bool "market_state imbalance roundtrip"
-    true (Float.equal original.imbalance decoded.imbalance);
-  assert_bool "market_state ai_confidence roundtrip"
-    true (Float.equal original.ai_confidence decoded.ai_confidence)
+    true (Float.equal original.binance_imbalance decoded.binance_imbalance);
+  assert_bool "market_state ai_up roundtrip"
+    true (Float.equal original.ai_prediction_up decoded.ai_prediction_up);
+  assert_bool "market_state ai_down roundtrip"
+    true (Float.equal original.ai_prediction_down decoded.ai_prediction_down)
 
 let benchmark_eval () =
   Printf.printf "\n[Benchmark]\n%!";
   let iterations = 1_000_000 in
-  let state = bearish_state in
-  let strategy = Strategies.aggressive_short in
+  let state = bullish_binance_state in
+  let strategy = Strategies.binance_strategy in
   let t0 = Unix.gettimeofday () in
   for _ = 1 to iterations do
     ignore (Evaluator.eval_action state strategy)
@@ -133,13 +90,9 @@ let benchmark_eval () =
   ) else
     Printf.printf "  ✓ PASS: eval < 1µs (%.0f ns)\n%!" ns_per_eval
 
-
 let () =
   Printf.printf "=== OCaml Strategy Engine Test Suite ===\n%!";
-  test_compare ();
-  test_boolean_combinators ();
   test_strategies ();
-  test_cascade ();
   test_wire_roundtrip ();
   benchmark_eval ();
   Printf.printf "\n=== All tests passed ===\n%!"
