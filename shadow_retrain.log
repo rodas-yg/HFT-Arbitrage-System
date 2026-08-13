@@ -1,0 +1,974 @@
+2026-08-03 12:57:31,234 [INFO] ============================================================
+2026-08-03 12:57:31,234 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-03 12:57:31,234 [INFO]  Timestamp : 2026-08-03T16:57:31.234760+00:00
+2026-08-03 12:57:31,234 [INFO]  Dry Run   : True
+2026-08-03 12:57:31,234 [INFO] ============================================================
+2026-08-03 12:57:31,234 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-03 12:57:31,235 [INFO] Found 0 Polymarket chunks from last 24h
+2026-08-03 12:57:31,235 [ERROR] No recent Polymarket data found. Aborting.
+2026-08-03 12:57:31,235 [ERROR] Insufficient data: 0 rows (minimum: 500). Aborting to protect model quality.
+2026-08-03 14:31:16,029 [INFO] ============================================================
+2026-08-03 14:31:16,029 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-03 14:31:16,029 [INFO]  Timestamp : 2026-08-03T18:31:16.029893+00:00
+2026-08-03 14:31:16,029 [INFO]  Dry Run   : False
+2026-08-03 14:31:16,029 [INFO] ============================================================
+2026-08-03 14:31:16,029 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-03 14:31:16,030 [INFO] Found 0 Polymarket chunks from last 24h
+2026-08-03 14:31:16,031 [ERROR] No recent Polymarket data found. Aborting.
+2026-08-03 14:31:16,031 [ERROR] Insufficient data: 0 rows (minimum: 500). Aborting to protect model quality.
+2026-08-08 03:00:07,630 [INFO] ============================================================
+2026-08-08 03:00:07,630 [INFO] ============================================================
+2026-08-08 03:00:07,630 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-08 03:00:07,630 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-08 03:00:07,630 [INFO]  Timestamp : 2026-08-08T07:00:07.630603+00:00
+2026-08-08 03:00:07,630 [INFO]  Timestamp : 2026-08-08T07:00:07.630603+00:00
+2026-08-08 03:00:07,630 [INFO]  Dry Run   : False
+2026-08-08 03:00:07,630 [INFO]  Dry Run   : False
+2026-08-08 03:00:07,630 [INFO] ============================================================
+2026-08-08 03:00:07,630 [INFO] ============================================================
+2026-08-08 03:00:07,630 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-08 03:00:07,630 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-08 03:00:07,633 [INFO] Found 0 Polymarket chunks from last 24h
+2026-08-08 03:00:07,633 [INFO] Found 0 Polymarket chunks from last 24h
+2026-08-08 03:00:07,633 [ERROR] No recent Polymarket data found. Aborting.
+2026-08-08 03:00:07,633 [ERROR] No recent Polymarket data found. Aborting.
+2026-08-08 03:00:07,633 [ERROR] Insufficient data: 0 rows (minimum: 500). Aborting to protect model quality.
+2026-08-08 03:00:07,633 [ERROR] Insufficient data: 0 rows (minimum: 500). Aborting to protect model quality.
+2026-08-11 23:26:06,901 [INFO] ============================================================
+2026-08-11 23:26:06,902 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:26:06,902 [INFO]  Timestamp : 2026-08-12T03:26:06.902065+00:00
+2026-08-11 23:26:06,902 [INFO]  Dry Run   : False
+2026-08-11 23:26:06,902 [INFO] ============================================================
+2026-08-11 23:26:06,902 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:26:06,902 [INFO] Found 2 Polymarket chunks from last 24h
+2026-08-11 23:26:07,066 [INFO] Found 1 Binance chunks from last 24h
+2026-08-11 23:26:07,070 [INFO] Fusion complete: 412 rows
+2026-08-11 23:26:07,102 [ERROR] Insufficient data: 157 rows (minimum: 500). Aborting to protect model quality.
+2026-08-11 23:35:05,889 [INFO] ============================================================
+2026-08-11 23:35:05,890 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:35:05,890 [INFO]  Timestamp : 2026-08-12T03:35:05.890125+00:00
+2026-08-11 23:35:05,890 [INFO]  Dry Run   : False
+2026-08-11 23:35:05,890 [INFO] ============================================================
+2026-08-11 23:35:05,890 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:35:05,890 [INFO] Found 13 Polymarket chunks from last 24h
+2026-08-11 23:35:05,991 [INFO] Found 9 Binance chunks from last 24h
+2026-08-11 23:35:06,005 [INFO] Fusion complete: 5164 rows
+2026-08-11 23:35:06,042 [INFO]   Fused dataset: 4635 rows, 8 unique tickers
+2026-08-11 23:35:06,042 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-11 23:35:06,042 [INFO] [3/5] Building sliding window sequences...
+2026-08-11 23:35:06,085 [INFO]   Sequences: 4283 samples, shape=(4283, 50, 7)
+2026-08-11 23:35:06,085 [INFO]     Class 0 (DOWN): 196 (4.6%)
+2026-08-11 23:35:06,085 [INFO]     Class 1 (FLAT): 3254 (76.0%)
+2026-08-11 23:35:06,085 [INFO]     Class 2 (UP): 833 (19.4%)
+2026-08-11 23:35:06,085 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-11 23:35:06,085 [INFO]   Device: cpu
+2026-08-11 23:35:06,090 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-11 23:35:06,837 [INFO] Training: 3854 samples, 429 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-11 23:35:06,838 [INFO] Class weights: [6.554421901702881, 0.4432942271232605, 1.690350890159607]
+2026-08-11 23:35:08,158 [INFO]   Epoch 1/2 — loss: 1.375582, acc: 0.4554
+2026-08-11 23:35:09,495 [INFO]   Epoch 2/2 — loss: 1.214210, acc: 0.4946
+2026-08-11 23:35:09,544 [INFO]   Validation — loss: 0.837061, acc: 0.6923
+2026-08-11 23:35:09,545 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-11 23:35:09,554 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-11 23:35:09,555 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-11 23:35:09,555 [INFO] ============================================================
+2026-08-11 23:35:09,555 [INFO]  Shadow Retrain Complete
+2026-08-11 23:35:09,555 [INFO]   Samples trained on : 4283
+2026-08-11 23:35:09,555 [INFO]   Final train loss   : 1.214210
+2026-08-11 23:35:09,556 [INFO]   Final train acc    : 0.4946
+2026-08-11 23:35:09,556 [INFO]   Validation loss    : 0.837061
+2026-08-11 23:35:09,556 [INFO]   Validation acc     : 0.6923
+2026-08-11 23:35:09,556 [INFO] ============================================================
+2026-08-11 23:35:25,303 [INFO] ============================================================
+2026-08-11 23:35:25,303 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:35:25,303 [INFO]  Timestamp : 2026-08-12T03:35:25.303782+00:00
+2026-08-11 23:35:25,303 [INFO]  Dry Run   : False
+2026-08-11 23:35:25,303 [INFO] ============================================================
+2026-08-11 23:35:25,303 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:35:25,304 [INFO] Found 13 Polymarket chunks from last 24h
+2026-08-11 23:35:25,350 [INFO] Found 9 Binance chunks from last 24h
+2026-08-11 23:35:25,360 [INFO] Fusion complete: 5164 rows
+2026-08-11 23:35:25,408 [INFO]   Fused dataset: 4635 rows, 8 unique tickers
+2026-08-11 23:35:25,409 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-11 23:35:25,410 [INFO] [3/5] Building sliding window sequences...
+2026-08-11 23:35:25,450 [INFO]   Sequences: 4283 samples, shape=(4283, 50, 7)
+2026-08-11 23:35:25,450 [INFO]     Class 0 (DOWN): 196 (4.6%)
+2026-08-11 23:35:25,450 [INFO]     Class 1 (FLAT): 3254 (76.0%)
+2026-08-11 23:35:25,450 [INFO]     Class 2 (UP): 833 (19.4%)
+2026-08-11 23:35:25,450 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-11 23:35:25,451 [INFO]   Device: cpu
+2026-08-11 23:35:25,454 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-11 23:35:25,884 [INFO] Training: 3854 samples, 429 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-11 23:35:25,885 [INFO] Class weights: [6.554421901702881, 0.4432942271232605, 1.690350890159607]
+2026-08-11 23:35:27,213 [INFO]   Epoch 1/2 — loss: 1.075106, acc: 0.5254
+2026-08-11 23:35:28,495 [INFO]   Epoch 2/2 — loss: 0.998919, acc: 0.5322
+2026-08-11 23:35:28,547 [INFO]   Validation — loss: 0.802635, acc: 0.7226
+2026-08-11 23:35:28,547 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-11 23:35:28,558 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-11 23:35:28,558 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-11 23:35:28,558 [INFO] ============================================================
+2026-08-11 23:35:28,558 [INFO]  Shadow Retrain Complete
+2026-08-11 23:35:28,558 [INFO]   Samples trained on : 4283
+2026-08-11 23:35:28,558 [INFO]   Final train loss   : 0.998919
+2026-08-11 23:35:28,558 [INFO]   Final train acc    : 0.5322
+2026-08-11 23:35:28,558 [INFO]   Validation loss    : 0.802635
+2026-08-11 23:35:28,558 [INFO]   Validation acc     : 0.7226
+2026-08-11 23:35:28,558 [INFO] ============================================================
+2026-08-11 23:48:12,090 [INFO] ============================================================
+2026-08-11 23:48:12,090 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:48:12,090 [INFO]  Timestamp : 2026-08-12T03:48:12.090949+00:00
+2026-08-11 23:48:12,090 [INFO]  Dry Run   : False
+2026-08-11 23:48:12,090 [INFO] ============================================================
+2026-08-11 23:48:12,091 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:48:12,091 [INFO] Found 28 Polymarket chunks from last 24h
+2026-08-11 23:48:12,205 [INFO] Found 20 Binance chunks from last 24h
+2026-08-11 23:48:12,225 [INFO] Fusion complete: 9523 rows
+2026-08-11 23:48:12,269 [INFO]   Fused dataset: 8635 rows, 11 unique tickers
+2026-08-11 23:48:12,269 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-11 23:48:12,270 [INFO] [3/5] Building sliding window sequences...
+2026-08-11 23:48:12,309 [INFO]   Sequences: 8130 samples, shape=(8130, 50, 7)
+2026-08-11 23:48:12,309 [INFO]     Class 0 (DOWN): 544 (6.7%)
+2026-08-11 23:48:12,309 [INFO]     Class 1 (FLAT): 6310 (77.6%)
+2026-08-11 23:48:12,309 [INFO]     Class 2 (UP): 1276 (15.7%)
+2026-08-11 23:48:12,309 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-11 23:48:12,309 [INFO]   Device: cpu
+2026-08-11 23:48:12,318 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-11 23:48:12,789 [INFO] Training: 7317 samples, 813 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-11 23:48:12,789 [INFO] Class weights: [7.152492523193359, 0.4259518086910248, 1.951200008392334]
+2026-08-11 23:48:15,219 [INFO]   Epoch 1/2 — loss: 1.255956, acc: 0.4704
+2026-08-11 23:48:17,614 [INFO]   Epoch 2/2 — loss: 1.128249, acc: 0.4941
+2026-08-11 23:48:17,688 [INFO]   Validation — loss: 0.881856, acc: 0.4391
+2026-08-11 23:48:17,700 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-11 23:48:17,711 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-11 23:48:17,712 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-11 23:48:17,712 [INFO] ============================================================
+2026-08-11 23:48:17,712 [INFO]  Shadow Retrain Complete
+2026-08-11 23:48:17,712 [INFO]   Samples trained on : 8130
+2026-08-11 23:48:17,712 [INFO]   Final train loss   : 1.128249
+2026-08-11 23:48:17,712 [INFO]   Final train acc    : 0.4941
+2026-08-11 23:48:17,712 [INFO]   Validation loss    : 0.881856
+2026-08-11 23:48:17,712 [INFO]   Validation acc     : 0.4391
+2026-08-11 23:48:17,712 [INFO] ============================================================
+2026-08-11 23:56:06,089 [INFO] ============================================================
+2026-08-11 23:56:06,089 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:56:06,089 [INFO]  Timestamp : 2026-08-12T03:56:06.089381+00:00
+2026-08-11 23:56:06,089 [INFO]  Dry Run   : False
+2026-08-11 23:56:06,089 [INFO] ============================================================
+2026-08-11 23:56:06,089 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:56:06,090 [INFO] Found 38 Polymarket chunks from last 24h
+2026-08-11 23:56:06,221 [INFO] Found 27 Binance chunks from last 24h
+2026-08-11 23:56:06,247 [INFO] Fusion complete: 13198 rows
+2026-08-11 23:56:06,276 [INFO] Fetching resolutions for 129 markets...
+2026-08-11 23:56:35,636 [INFO]   Fused dataset: 9628 rows, 7 unique tickers
+2026-08-11 23:56:35,637 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-11 23:56:35,638 [INFO] [3/5] Building sliding window sequences...
+2026-08-11 23:56:35,706 [INFO]   Sequences: 9278 samples, shape=(9278, 50, 7)
+2026-08-11 23:56:35,706 [INFO]     Class 0 (DOWN): 3381 (36.4%)
+2026-08-11 23:56:35,706 [INFO]     Class 1 (FLAT): 5897 (63.6%)
+2026-08-11 23:56:35,706 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-11 23:56:35,706 [INFO]   Device: cpu
+2026-08-11 23:56:35,707 [INFO]   'leadlag_binary.pt' not found. Starting with random weights for binary model.
+2026-08-11 23:56:36,206 [INFO] Training: 8350 samples, 928 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-11 23:56:36,206 [INFO] Class weights: [1.7019975185394287, 0.7079871296882629]
+2026-08-11 23:56:38,969 [INFO]   Epoch 1/2 — loss: 0.697040, acc: 0.2938
+2026-08-11 23:56:41,726 [INFO]   Epoch 2/2 — loss: 0.693484, acc: 0.2938
+2026-08-11 23:56:41,807 [INFO]   Validation — loss: 0.621379, acc: 1.0000
+2026-08-11 23:56:41,809 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-11 23:56:41,817 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-11 23:56:41,820 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-11 23:56:41,820 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-11 23:56:41,820 [INFO] ============================================================
+2026-08-11 23:56:41,820 [INFO]  Shadow Retrain Complete
+2026-08-11 23:56:41,820 [INFO]   Samples trained on : 9278
+2026-08-11 23:56:41,820 [INFO]   Final train loss   : 0.693484
+2026-08-11 23:56:41,820 [INFO]   Final train acc    : 0.2938
+2026-08-11 23:56:41,820 [INFO]   Validation loss    : 0.621379
+2026-08-11 23:56:41,820 [INFO]   Validation acc     : 1.0000
+2026-08-11 23:56:41,820 [INFO] ============================================================
+2026-08-11 23:58:52,531 [INFO] ============================================================
+2026-08-11 23:58:52,531 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-11 23:58:52,532 [INFO]  Timestamp : 2026-08-12T03:58:52.531993+00:00
+2026-08-11 23:58:52,532 [INFO]  Dry Run   : False
+2026-08-11 23:58:52,532 [INFO] ============================================================
+2026-08-11 23:58:52,532 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-11 23:58:52,532 [INFO] Found 41 Polymarket chunks from last 24h
+2026-08-11 23:58:52,672 [INFO] Found 29 Binance chunks from last 24h
+2026-08-11 23:58:52,703 [INFO] Fusion complete: 15341 rows
+2026-08-11 23:58:52,731 [INFO] Fetching resolutions for 129 markets...
+2026-08-11 23:59:21,404 [INFO]   Fused dataset: 10829 rows, 8 unique tickers
+2026-08-11 23:59:21,404 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-11 23:59:21,405 [INFO] [3/5] Building sliding window sequences...
+2026-08-11 23:59:21,454 [INFO]   Sequences: 10429 samples, shape=(10429, 50, 7)
+2026-08-11 23:59:21,454 [INFO]     Class 0 (DOWN): 4532 (43.5%)
+2026-08-11 23:59:21,454 [INFO]     Class 1 (FLAT): 5897 (56.5%)
+2026-08-11 23:59:21,454 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-11 23:59:21,455 [INFO]   Device: cpu
+2026-08-11 23:59:21,459 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-11 23:59:21,943 [INFO] Training: 9386 samples, 1043 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-11 23:59:21,943 [INFO] Class weights: [1.345084547996521, 0.7958284020423889]
+2026-08-11 23:59:25,165 [INFO]   Epoch 1/2 — loss: 0.687901, acc: 0.3717
+2026-08-11 23:59:28,404 [INFO]   Epoch 2/2 — loss: 0.680542, acc: 0.4526
+2026-08-11 23:59:28,515 [INFO]   Validation — loss: 0.638679, acc: 1.0000
+2026-08-11 23:59:28,515 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-11 23:59:28,524 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-11 23:59:28,527 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-11 23:59:28,530 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-11 23:59:28,530 [INFO] ============================================================
+2026-08-11 23:59:28,530 [INFO]  Shadow Retrain Complete
+2026-08-11 23:59:28,530 [INFO]   Samples trained on : 10429
+2026-08-11 23:59:28,530 [INFO]   Final train loss   : 0.680542
+2026-08-11 23:59:28,530 [INFO]   Final train acc    : 0.4526
+2026-08-11 23:59:28,530 [INFO]   Validation loss    : 0.638679
+2026-08-11 23:59:28,530 [INFO]   Validation acc     : 1.0000
+2026-08-11 23:59:28,530 [INFO] ============================================================
+2026-08-12 03:00:02,774 [INFO] ============================================================
+2026-08-12 03:00:02,774 [INFO] ============================================================
+2026-08-12 03:00:02,774 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 03:00:02,774 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 03:00:02,774 [INFO]  Timestamp : 2026-08-12T07:00:02.774892+00:00
+2026-08-12 03:00:02,774 [INFO]  Timestamp : 2026-08-12T07:00:02.774892+00:00
+2026-08-12 03:00:02,774 [INFO]  Dry Run   : False
+2026-08-12 03:00:02,774 [INFO]  Dry Run   : False
+2026-08-12 03:00:02,774 [INFO] ============================================================
+2026-08-12 03:00:02,774 [INFO] ============================================================
+2026-08-12 03:00:02,775 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 03:00:02,775 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 03:00:02,777 [INFO] Found 231 Polymarket chunks from last 24h
+2026-08-12 03:00:02,777 [INFO] Found 231 Polymarket chunks from last 24h
+2026-08-12 03:00:03,343 [INFO] Found 174 Binance chunks from last 24h
+2026-08-12 03:00:03,343 [INFO] Found 174 Binance chunks from last 24h
+2026-08-12 03:00:03,634 [INFO] Fusion complete: 100899 rows
+2026-08-12 03:00:03,634 [INFO] Fusion complete: 100899 rows
+2026-08-12 03:00:03,876 [INFO]   Fused dataset: 99136 rows, 171 unique tickers
+2026-08-12 03:00:03,876 [INFO]   Fused dataset: 99136 rows, 171 unique tickers
+2026-08-12 03:00:03,876 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 03:00:03,876 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 03:00:03,879 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 03:00:03,879 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 03:00:04,383 [INFO]   Sequences: 92157 samples, shape=(92157, 50, 7)
+2026-08-12 03:00:04,383 [INFO]   Sequences: 92157 samples, shape=(92157, 50, 7)
+2026-08-12 03:00:04,385 [INFO]     Class 0 (DOWN): 9574 (10.4%)
+2026-08-12 03:00:04,385 [INFO]     Class 0 (DOWN): 9574 (10.4%)
+2026-08-12 03:00:04,385 [INFO]     Class 1 (FLAT): 71451 (77.5%)
+2026-08-12 03:00:04,385 [INFO]     Class 1 (FLAT): 71451 (77.5%)
+2026-08-12 03:00:04,385 [INFO]     Class 2 (UP): 11132 (12.1%)
+2026-08-12 03:00:04,385 [INFO]     Class 2 (UP): 11132 (12.1%)
+2026-08-12 03:00:04,385 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 03:00:04,385 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 03:00:04,385 [INFO]   Device: cpu
+2026-08-12 03:00:04,385 [INFO]   Device: cpu
+2026-08-12 03:00:04,416 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-12 03:00:04,416 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-12 03:00:05,676 [INFO] Training: 82941 samples, 9216 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 03:00:05,676 [INFO] Training: 82941 samples, 9216 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 03:00:05,677 [INFO] Class weights: [3.1485023498535156, 0.433229923248291, 2.672757148742676]
+2026-08-12 03:00:05,677 [INFO] Class weights: [3.1485023498535156, 0.433229923248291, 2.672757148742676]
+2026-08-12 03:00:33,432 [INFO] ============================================================
+2026-08-12 03:00:33,432 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 03:00:33,432 [INFO]  Timestamp : 2026-08-12T07:00:33.432278+00:00
+2026-08-12 03:00:33,432 [INFO]  Dry Run   : False
+2026-08-12 03:00:33,432 [INFO] ============================================================
+2026-08-12 03:00:33,432 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 03:00:33,433 [INFO] Found 231 Polymarket chunks from last 24h
+2026-08-12 03:00:33,670 [INFO] Found 175 Binance chunks from last 24h
+2026-08-12 03:00:33,799 [INFO] Fusion complete: 100899 rows
+2026-08-12 03:00:33,835 [INFO] Fetching resolutions for 181 markets...
+2026-08-12 03:01:11,691 [INFO]   Fused dataset: 91222 rows, 60 unique tickers
+2026-08-12 03:01:11,692 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 03:01:11,694 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 03:01:11,829 [INFO]   Sequences: 88222 samples, shape=(88222, 50, 7)
+2026-08-12 03:01:11,830 [INFO]     Class 0 (DOWN): 35610 (40.4%)
+2026-08-12 03:01:11,830 [INFO]     Class 1 (FLAT): 52612 (59.6%)
+2026-08-12 03:01:11,830 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 03:01:11,830 [INFO]   Device: cpu
+2026-08-12 03:01:11,834 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 03:01:12,287 [INFO] Training: 79399 samples, 8823 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 03:01:12,287 [INFO] Class weights: [1.238905906677246, 0.8383380770683289]
+2026-08-12 03:01:31,912 [INFO]   Epoch 1/2 — loss: 1.102638, acc: 0.4675
+2026-08-12 03:01:31,912 [INFO]   Epoch 1/2 — loss: 1.102638, acc: 0.4675
+2026-08-12 03:01:38,697 [INFO]   Epoch 1/2 — loss: 0.654574, acc: 0.5704
+2026-08-12 03:02:05,119 [INFO]   Epoch 2/2 — loss: 0.616495, acc: 0.5851
+2026-08-12 03:02:06,109 [INFO]   Validation — loss: 0.646482, acc: 0.5404
+2026-08-12 03:02:06,114 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 03:02:06,134 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 03:02:06,141 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 03:02:06,142 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 03:02:06,142 [INFO] ============================================================
+2026-08-12 03:02:06,142 [INFO]  Shadow Retrain Complete
+2026-08-12 03:02:06,142 [INFO]   Samples trained on : 88222
+2026-08-12 03:02:06,142 [INFO]   Final train loss   : 0.616495
+2026-08-12 03:02:06,142 [INFO]   Final train acc    : 0.5851
+2026-08-12 03:02:06,142 [INFO]   Validation loss    : 0.646482
+2026-08-12 03:02:06,142 [INFO]   Validation acc     : 0.5404
+2026-08-12 03:02:06,142 [INFO] ============================================================
+2026-08-12 03:03:05,969 [INFO]   Epoch 2/2 — loss: 0.970073, acc: 0.4772
+2026-08-12 03:03:05,969 [INFO]   Epoch 2/2 — loss: 0.970073, acc: 0.4772
+2026-08-12 03:03:09,626 [INFO]   Validation — loss: 0.947161, acc: 0.4537
+2026-08-12 03:03:09,626 [INFO]   Validation — loss: 0.947161, acc: 0.4537
+2026-08-12 03:03:09,629 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 03:03:09,629 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 03:03:09,678 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 03:03:09,678 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 03:03:09,679 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-12 03:03:09,679 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-12 03:03:09,679 [INFO] ============================================================
+2026-08-12 03:03:09,679 [INFO] ============================================================
+2026-08-12 03:03:09,679 [INFO]  Shadow Retrain Complete
+2026-08-12 03:03:09,679 [INFO]  Shadow Retrain Complete
+2026-08-12 03:03:09,679 [INFO]   Samples trained on : 92157
+2026-08-12 03:03:09,679 [INFO]   Samples trained on : 92157
+2026-08-12 03:03:09,679 [INFO]   Final train loss   : 0.970073
+2026-08-12 03:03:09,679 [INFO]   Final train loss   : 0.970073
+2026-08-12 03:03:09,679 [INFO]   Final train acc    : 0.4772
+2026-08-12 03:03:09,679 [INFO]   Final train acc    : 0.4772
+2026-08-12 03:03:09,679 [INFO]   Validation loss    : 0.947161
+2026-08-12 03:03:09,679 [INFO]   Validation loss    : 0.947161
+2026-08-12 03:03:09,679 [INFO]   Validation acc     : 0.4537
+2026-08-12 03:03:09,679 [INFO]   Validation acc     : 0.4537
+2026-08-12 03:03:09,679 [INFO] ============================================================
+2026-08-12 03:03:09,679 [INFO] ============================================================
+2026-08-12 04:02:07,847 [INFO] ============================================================
+2026-08-12 04:02:07,847 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 04:02:07,847 [INFO]  Timestamp : 2026-08-12T08:02:07.847991+00:00
+2026-08-12 04:02:07,848 [INFO]  Dry Run   : False
+2026-08-12 04:02:07,848 [INFO] ============================================================
+2026-08-12 04:02:07,848 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 04:02:07,849 [INFO] Found 293 Polymarket chunks from last 24h
+2026-08-12 04:02:08,213 [INFO] Found 227 Binance chunks from last 24h
+2026-08-12 04:02:08,386 [INFO] Fusion complete: 129421 rows
+2026-08-12 04:02:08,417 [INFO] Fetching resolutions for 202 markets...
+2026-08-12 04:02:52,503 [INFO]   Fused dataset: 117550 rows, 77 unique tickers
+2026-08-12 04:02:52,504 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 04:02:52,507 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 04:02:52,643 [INFO]   Sequences: 113700 samples, shape=(113700, 50, 7)
+2026-08-12 04:02:52,644 [INFO]     Class 0 (DOWN): 48105 (42.3%)
+2026-08-12 04:02:52,644 [INFO]     Class 1 (FLAT): 65595 (57.7%)
+2026-08-12 04:02:52,644 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 04:02:52,644 [INFO]   Device: cpu
+2026-08-12 04:02:52,651 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 04:02:53,146 [INFO] Training: 102330 samples, 11370 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 04:02:53,146 [INFO] Class weights: [1.21480131149292, 0.8497475385665894]
+2026-08-12 04:03:26,163 [INFO]   Epoch 1/2 — loss: 0.616135, acc: 0.6012
+2026-08-12 04:03:58,823 [INFO]   Epoch 2/2 — loss: 0.609490, acc: 0.6189
+2026-08-12 04:04:00,177 [INFO]   Validation — loss: 0.553019, acc: 0.7208
+2026-08-12 04:04:00,181 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 04:04:00,207 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 04:04:00,210 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 04:04:00,210 [INFO] ============================================================
+2026-08-12 04:04:00,210 [INFO]  Shadow Retrain Complete
+2026-08-12 04:04:00,210 [INFO]   Samples trained on : 113700
+2026-08-12 04:04:00,210 [INFO]   Final train loss   : 0.609490
+2026-08-12 04:04:00,210 [INFO]   Final train acc    : 0.6189
+2026-08-12 04:04:00,210 [INFO]   Validation loss    : 0.553019
+2026-08-12 04:04:00,210 [INFO]   Validation acc     : 0.7208
+2026-08-12 04:04:00,210 [INFO] ============================================================
+2026-08-12 05:04:01,701 [INFO] ============================================================
+2026-08-12 05:04:01,701 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 05:04:01,702 [INFO]  Timestamp : 2026-08-12T09:04:01.702036+00:00
+2026-08-12 05:04:01,702 [INFO]  Dry Run   : False
+2026-08-12 05:04:01,702 [INFO] ============================================================
+2026-08-12 05:04:01,702 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 05:04:01,703 [INFO] Found 354 Polymarket chunks from last 24h
+2026-08-12 05:04:02,122 [INFO] Found 275 Binance chunks from last 24h
+2026-08-12 05:04:02,314 [INFO] Fusion complete: 162194 rows
+2026-08-12 05:04:02,347 [INFO] Fetching resolutions for 219 markets...
+2026-08-12 05:04:50,911 [INFO]   Fused dataset: 150870 rows, 96 unique tickers
+2026-08-12 05:04:50,912 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 05:04:50,913 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 05:04:51,065 [INFO]   Sequences: 146070 samples, shape=(146070, 50, 7)
+2026-08-12 05:04:51,066 [INFO]     Class 0 (DOWN): 63058 (43.2%)
+2026-08-12 05:04:51,066 [INFO]     Class 1 (FLAT): 83012 (56.8%)
+2026-08-12 05:04:51,066 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 05:04:51,066 [INFO]   Device: cpu
+2026-08-12 05:04:51,070 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 05:04:51,556 [INFO] Training: 131463 samples, 14607 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 05:04:51,556 [INFO] Class weights: [1.1716217994689941, 0.8722332715988159]
+2026-08-12 05:05:33,741 [INFO]   Epoch 1/2 — loss: 0.616308, acc: 0.6257
+2026-08-12 05:06:15,947 [INFO]   Epoch 2/2 — loss: 0.612211, acc: 0.6326
+2026-08-12 05:06:17,818 [INFO]   Validation — loss: 0.588696, acc: 0.6494
+2026-08-12 05:06:17,820 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 05:06:17,830 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 05:06:17,833 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 05:06:17,835 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 05:06:17,835 [INFO] ============================================================
+2026-08-12 05:06:17,835 [INFO]  Shadow Retrain Complete
+2026-08-12 05:06:17,835 [INFO]   Samples trained on : 146070
+2026-08-12 05:06:17,835 [INFO]   Final train loss   : 0.612211
+2026-08-12 05:06:17,835 [INFO]   Final train acc    : 0.6326
+2026-08-12 05:06:17,835 [INFO]   Validation loss    : 0.588696
+2026-08-12 05:06:17,835 [INFO]   Validation acc     : 0.6494
+2026-08-12 05:06:17,835 [INFO] ============================================================
+2026-08-12 06:06:19,317 [INFO] ============================================================
+2026-08-12 06:06:19,317 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 06:06:19,317 [INFO]  Timestamp : 2026-08-12T10:06:19.317891+00:00
+2026-08-12 06:06:19,317 [INFO]  Dry Run   : False
+2026-08-12 06:06:19,317 [INFO] ============================================================
+2026-08-12 06:06:19,317 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 06:06:19,319 [INFO] Found 417 Polymarket chunks from last 24h
+2026-08-12 06:06:19,805 [INFO] Found 330 Binance chunks from last 24h
+2026-08-12 06:06:20,038 [INFO] Fusion complete: 205229 rows
+2026-08-12 06:06:20,071 [INFO] Fetching resolutions for 236 markets...
+2026-08-12 06:07:12,529 [INFO]   Fused dataset: 193624 rows, 114 unique tickers
+2026-08-12 06:07:12,529 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 06:07:12,532 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 06:07:12,702 [INFO]   Sequences: 187924 samples, shape=(187924, 50, 7)
+2026-08-12 06:07:12,703 [INFO]     Class 0 (DOWN): 70661 (37.6%)
+2026-08-12 06:07:12,703 [INFO]     Class 1 (FLAT): 117263 (62.4%)
+2026-08-12 06:07:12,703 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 06:07:12,703 [INFO]   Device: cpu
+2026-08-12 06:07:12,708 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 06:07:13,216 [INFO] Training: 169131 samples, 18793 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 06:07:13,216 [INFO] Class weights: [1.317465901374817, 0.8058231472969055]
+2026-08-12 06:08:07,734 [INFO]   Epoch 1/2 — loss: 0.597765, acc: 0.6359
+2026-08-12 06:09:02,004 [INFO]   Epoch 2/2 — loss: 0.593635, acc: 0.6386
+2026-08-12 06:09:04,332 [INFO]   Validation — loss: 0.479718, acc: 0.8165
+2026-08-12 06:09:04,335 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 06:09:04,346 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 06:09:04,349 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 06:09:04,356 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 06:09:04,356 [INFO] ============================================================
+2026-08-12 06:09:04,356 [INFO]  Shadow Retrain Complete
+2026-08-12 06:09:04,356 [INFO]   Samples trained on : 187924
+2026-08-12 06:09:04,356 [INFO]   Final train loss   : 0.593635
+2026-08-12 06:09:04,356 [INFO]   Final train acc    : 0.6386
+2026-08-12 06:09:04,356 [INFO]   Validation loss    : 0.479718
+2026-08-12 06:09:04,356 [INFO]   Validation acc     : 0.8165
+2026-08-12 06:09:04,356 [INFO] ============================================================
+2026-08-12 07:09:05,844 [INFO] ============================================================
+2026-08-12 07:09:05,844 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 07:09:05,844 [INFO]  Timestamp : 2026-08-12T11:09:05.844988+00:00
+2026-08-12 07:09:05,845 [INFO]  Dry Run   : False
+2026-08-12 07:09:05,845 [INFO] ============================================================
+2026-08-12 07:09:05,845 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 07:09:05,846 [INFO] Found 480 Polymarket chunks from last 24h
+2026-08-12 07:09:06,379 [INFO] Found 386 Binance chunks from last 24h
+2026-08-12 07:09:06,655 [INFO] Fusion complete: 242141 rows
+2026-08-12 07:09:06,687 [INFO] Fetching resolutions for 254 markets...
+2026-08-12 07:10:05,663 [INFO]   Fused dataset: 229663 rows, 132 unique tickers
+2026-08-12 07:10:05,663 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 07:10:05,666 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 07:10:05,866 [INFO]   Sequences: 223063 samples, shape=(223063, 50, 7)
+2026-08-12 07:10:05,866 [INFO]     Class 0 (DOWN): 89880 (40.3%)
+2026-08-12 07:10:05,866 [INFO]     Class 1 (FLAT): 133183 (59.7%)
+2026-08-12 07:10:05,866 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 07:10:05,866 [INFO]   Device: cpu
+2026-08-12 07:10:05,871 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 07:10:06,380 [INFO] Training: 200756 samples, 22307 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 07:10:06,380 [INFO] Class weights: [1.307362675666809, 0.809650182723999]
+2026-08-12 07:11:10,409 [INFO]   Epoch 1/2 — loss: 0.582103, acc: 0.6542
+2026-08-12 07:12:14,298 [INFO]   Epoch 2/2 — loss: 0.574623, acc: 0.6679
+2026-08-12 07:12:18,101 [INFO]   Validation — loss: 0.590612, acc: 0.7579
+2026-08-12 07:12:18,116 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 07:12:18,163 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 07:12:18,173 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 07:12:18,176 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 07:12:18,176 [INFO] ============================================================
+2026-08-12 07:12:18,176 [INFO]  Shadow Retrain Complete
+2026-08-12 07:12:18,176 [INFO]   Samples trained on : 223063
+2026-08-12 07:12:18,176 [INFO]   Final train loss   : 0.574623
+2026-08-12 07:12:18,176 [INFO]   Final train acc    : 0.6679
+2026-08-12 07:12:18,176 [INFO]   Validation loss    : 0.590612
+2026-08-12 07:12:18,176 [INFO]   Validation acc     : 0.7579
+2026-08-12 07:12:18,176 [INFO] ============================================================
+2026-08-12 08:12:20,098 [INFO] ============================================================
+2026-08-12 08:12:20,098 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 08:12:20,098 [INFO]  Timestamp : 2026-08-12T12:12:20.098974+00:00
+2026-08-12 08:12:20,099 [INFO]  Dry Run   : False
+2026-08-12 08:12:20,099 [INFO] ============================================================
+2026-08-12 08:12:20,099 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 08:12:20,100 [INFO] Found 543 Polymarket chunks from last 24h
+2026-08-12 08:12:20,684 [INFO] Found 439 Binance chunks from last 24h
+2026-08-12 08:12:20,984 [INFO] Fusion complete: 285717 rows
+2026-08-12 08:12:21,021 [INFO] Fetching resolutions for 272 markets...
+2026-08-12 08:13:19,537 [INFO]   Fused dataset: 271434 rows, 150 unique tickers
+2026-08-12 08:13:19,538 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 08:13:19,541 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 08:13:19,776 [INFO]   Sequences: 263934 samples, shape=(263934, 50, 7)
+2026-08-12 08:13:19,777 [INFO]     Class 0 (DOWN): 102513 (38.8%)
+2026-08-12 08:13:19,777 [INFO]     Class 1 (FLAT): 161421 (61.2%)
+2026-08-12 08:13:19,777 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 08:13:19,777 [INFO]   Device: cpu
+2026-08-12 08:13:19,785 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 08:13:20,297 [INFO] Training: 237540 samples, 26394 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 08:13:20,298 [INFO] Class weights: [1.2240922451019287, 0.8452598452568054]
+2026-08-12 08:14:36,628 [INFO]   Epoch 1/2 — loss: 0.577263, acc: 0.6762
+2026-08-12 08:15:52,462 [INFO]   Epoch 2/2 — loss: 0.566295, acc: 0.6823
+2026-08-12 08:15:57,358 [INFO]   Validation — loss: 0.827814, acc: 0.5578
+2026-08-12 08:15:57,373 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 08:15:57,706 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 08:15:57,712 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 08:15:57,714 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 08:15:57,714 [INFO] ============================================================
+2026-08-12 08:15:57,714 [INFO]  Shadow Retrain Complete
+2026-08-12 08:15:57,714 [INFO]   Samples trained on : 263934
+2026-08-12 08:15:57,714 [INFO]   Final train loss   : 0.566295
+2026-08-12 08:15:57,714 [INFO]   Final train acc    : 0.6823
+2026-08-12 08:15:57,714 [INFO]   Validation loss    : 0.827814
+2026-08-12 08:15:57,714 [INFO]   Validation acc     : 0.5578
+2026-08-12 08:15:57,714 [INFO] ============================================================
+2026-08-12 09:15:59,053 [INFO] ============================================================
+2026-08-12 09:15:59,054 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 09:15:59,054 [INFO]  Timestamp : 2026-08-12T13:15:59.054069+00:00
+2026-08-12 09:15:59,054 [INFO]  Dry Run   : False
+2026-08-12 09:15:59,054 [INFO] ============================================================
+2026-08-12 09:15:59,054 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 09:15:59,055 [INFO] Found 606 Polymarket chunks from last 24h
+2026-08-12 09:15:59,676 [INFO] Found 501 Binance chunks from last 24h
+2026-08-12 09:16:00,010 [INFO] Fusion complete: 327476 rows
+2026-08-12 09:16:00,050 [INFO] Fetching resolutions for 287 markets...
+2026-08-12 09:17:03,590 [INFO]   Fused dataset: 315780 rows, 169 unique tickers
+2026-08-12 09:17:03,591 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 09:17:03,593 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 09:17:03,843 [INFO]   Sequences: 307330 samples, shape=(307330, 50, 7)
+2026-08-12 09:17:03,843 [INFO]     Class 0 (DOWN): 122974 (40.0%)
+2026-08-12 09:17:03,843 [INFO]     Class 1 (FLAT): 184356 (60.0%)
+2026-08-12 09:17:03,843 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 09:17:03,843 [INFO]   Device: cpu
+2026-08-12 09:17:03,848 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 09:17:04,354 [INFO] Training: 276597 samples, 30733 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 09:17:04,354 [INFO] Class weights: [1.2896407842636108, 0.8165996670722961]
+2026-08-12 09:18:33,084 [INFO]   Epoch 1/2 — loss: 0.580192, acc: 0.6688
+2026-08-12 09:20:01,172 [INFO]   Epoch 2/2 — loss: 0.572399, acc: 0.6729
+2026-08-12 09:20:06,290 [INFO]   Validation — loss: 0.649318, acc: 0.6526
+2026-08-12 09:20:06,298 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 09:20:06,333 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 09:20:06,341 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 09:20:06,345 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 09:20:06,345 [INFO] ============================================================
+2026-08-12 09:20:06,379 [INFO]  Shadow Retrain Complete
+2026-08-12 09:20:06,379 [INFO]   Samples trained on : 307330
+2026-08-12 09:20:06,379 [INFO]   Final train loss   : 0.572399
+2026-08-12 09:20:06,379 [INFO]   Final train acc    : 0.6729
+2026-08-12 09:20:06,379 [INFO]   Validation loss    : 0.649318
+2026-08-12 09:20:06,379 [INFO]   Validation acc     : 0.6526
+2026-08-12 09:20:06,379 [INFO] ============================================================
+2026-08-12 10:20:08,358 [INFO] ============================================================
+2026-08-12 10:20:08,358 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 10:20:08,358 [INFO]  Timestamp : 2026-08-12T14:20:08.358865+00:00
+2026-08-12 10:20:08,358 [INFO]  Dry Run   : False
+2026-08-12 10:20:08,358 [INFO] ============================================================
+2026-08-12 10:20:08,358 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 10:20:08,360 [INFO] Found 671 Polymarket chunks from last 24h
+2026-08-12 10:20:09,044 [INFO] Found 563 Binance chunks from last 24h
+2026-08-12 10:20:09,434 [INFO] Fusion complete: 387758 rows
+2026-08-12 10:20:09,467 [INFO] Fetching resolutions for 308 markets...
+2026-08-12 10:21:16,848 [INFO]   Fused dataset: 373050 rows, 188 unique tickers
+2026-08-12 10:21:16,849 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 10:21:16,852 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 10:21:17,137 [INFO]   Sequences: 363650 samples, shape=(363650, 50, 7)
+2026-08-12 10:21:17,138 [INFO]     Class 0 (DOWN): 152603 (42.0%)
+2026-08-12 10:21:17,138 [INFO]     Class 1 (FLAT): 211047 (58.0%)
+2026-08-12 10:21:17,138 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 10:21:17,138 [INFO]   Device: cpu
+2026-08-12 10:21:17,142 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 10:21:17,675 [INFO] Training: 327285 samples, 36365 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 10:21:17,675 [INFO] Class weights: [1.1891499757766724, 0.8627657294273376]
+2026-08-12 10:23:02,979 [INFO]   Epoch 1/2 — loss: 0.584420, acc: 0.6714
+2026-08-12 10:24:47,954 [INFO]   Epoch 2/2 — loss: 0.578675, acc: 0.6761
+2026-08-12 10:24:54,347 [INFO]   Validation — loss: 0.880012, acc: 0.4759
+2026-08-12 10:24:54,351 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 10:24:54,382 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 10:24:54,397 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 10:24:54,401 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 10:24:54,401 [INFO] ============================================================
+2026-08-12 10:24:54,401 [INFO]  Shadow Retrain Complete
+2026-08-12 10:24:54,402 [INFO]   Samples trained on : 363650
+2026-08-12 10:24:54,402 [INFO]   Final train loss   : 0.578675
+2026-08-12 10:24:54,402 [INFO]   Final train acc    : 0.6761
+2026-08-12 10:24:54,402 [INFO]   Validation loss    : 0.880012
+2026-08-12 10:24:54,402 [INFO]   Validation acc     : 0.4759
+2026-08-12 10:24:54,402 [INFO] ============================================================
+2026-08-12 11:24:56,389 [INFO] ============================================================
+2026-08-12 11:24:56,390 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 11:24:56,390 [INFO]  Timestamp : 2026-08-12T15:24:56.390130+00:00
+2026-08-12 11:24:56,390 [INFO]  Dry Run   : False
+2026-08-12 11:24:56,390 [INFO] ============================================================
+2026-08-12 11:24:56,390 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 11:24:56,391 [INFO] Found 735 Polymarket chunks from last 24h
+2026-08-12 11:24:57,128 [INFO] Found 627 Binance chunks from last 24h
+2026-08-12 11:24:57,550 [INFO] Fusion complete: 438609 rows
+2026-08-12 11:24:57,583 [INFO] Fetching resolutions for 327 markets...
+2026-08-12 11:26:10,051 [INFO]   Fused dataset: 426388 rows, 206 unique tickers
+2026-08-12 11:26:10,051 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 11:26:10,055 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 11:26:10,386 [INFO]   Sequences: 416088 samples, shape=(416088, 50, 7)
+2026-08-12 11:26:10,387 [INFO]     Class 0 (DOWN): 186368 (44.8%)
+2026-08-12 11:26:10,387 [INFO]     Class 1 (FLAT): 229720 (55.2%)
+2026-08-12 11:26:10,387 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 11:26:10,387 [INFO]   Device: cpu
+2026-08-12 11:26:10,395 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 11:26:10,916 [INFO] Training: 374479 samples, 41609 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 11:26:10,916 [INFO] Class weights: [1.1804876327514648, 0.867383599281311]
+2026-08-12 11:28:10,504 [INFO]   Epoch 1/2 — loss: 0.599371, acc: 0.6545
+2026-08-12 11:30:09,543 [INFO]   Epoch 2/2 — loss: 0.592927, acc: 0.6593
+2026-08-12 11:30:16,993 [INFO]   Validation — loss: 0.607446, acc: 0.6765
+2026-08-12 11:30:17,242 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 11:30:17,573 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 11:30:17,587 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 11:30:17,589 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 11:30:17,589 [INFO] ============================================================
+2026-08-12 11:30:17,589 [INFO]  Shadow Retrain Complete
+2026-08-12 11:30:17,589 [INFO]   Samples trained on : 416088
+2026-08-12 11:30:17,589 [INFO]   Final train loss   : 0.592927
+2026-08-12 11:30:17,589 [INFO]   Final train acc    : 0.6593
+2026-08-12 11:30:17,589 [INFO]   Validation loss    : 0.607446
+2026-08-12 11:30:17,589 [INFO]   Validation acc     : 0.6765
+2026-08-12 11:30:17,589 [INFO] ============================================================
+2026-08-12 12:30:19,462 [INFO] ============================================================
+2026-08-12 12:30:19,463 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 12:30:19,463 [INFO]  Timestamp : 2026-08-12T16:30:19.463109+00:00
+2026-08-12 12:30:19,463 [INFO]  Dry Run   : False
+2026-08-12 12:30:19,463 [INFO] ============================================================
+2026-08-12 12:30:19,463 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 12:30:19,464 [INFO] Found 801 Polymarket chunks from last 24h
+2026-08-12 12:30:20,281 [INFO] Found 690 Binance chunks from last 24h
+2026-08-12 12:30:20,750 [INFO] Fusion complete: 475794 rows
+2026-08-12 12:30:20,785 [INFO] Fetching resolutions for 346 markets...
+2026-08-12 12:31:36,804 [INFO]   Fused dataset: 461534 rows, 225 unique tickers
+2026-08-12 12:31:36,805 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 12:31:36,809 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 12:31:37,162 [INFO]   Sequences: 450284 samples, shape=(450284, 50, 7)
+2026-08-12 12:31:37,163 [INFO]     Class 0 (DOWN): 198276 (44.0%)
+2026-08-12 12:31:37,163 [INFO]     Class 1 (FLAT): 252008 (56.0%)
+2026-08-12 12:31:37,163 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 12:31:37,163 [INFO]   Device: cpu
+2026-08-12 12:31:37,168 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 12:31:37,749 [INFO] Training: 405255 samples, 45029 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 12:31:37,749 [INFO] Class weights: [1.119266390800476, 0.903703510761261]
+2026-08-12 12:33:49,058 [INFO]   Epoch 1/2 — loss: 0.589304, acc: 0.6654
+2026-08-12 12:35:57,969 [INFO]   Epoch 2/2 — loss: 0.584419, acc: 0.6683
+2026-08-12 12:36:06,818 [INFO]   Validation — loss: 0.645942, acc: 0.6210
+2026-08-12 12:36:06,863 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 12:36:06,938 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 12:36:06,979 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 12:36:06,989 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 12:36:06,989 [INFO] ============================================================
+2026-08-12 12:36:06,989 [INFO]  Shadow Retrain Complete
+2026-08-12 12:36:06,989 [INFO]   Samples trained on : 450284
+2026-08-12 12:36:06,989 [INFO]   Final train loss   : 0.584419
+2026-08-12 12:36:06,989 [INFO]   Final train acc    : 0.6683
+2026-08-12 12:36:06,989 [INFO]   Validation loss    : 0.645942
+2026-08-12 12:36:06,989 [INFO]   Validation acc     : 0.6210
+2026-08-12 12:36:06,989 [INFO] ============================================================
+2026-08-12 13:36:09,271 [INFO] ============================================================
+2026-08-12 13:36:09,271 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 13:36:09,271 [INFO]  Timestamp : 2026-08-12T17:36:09.271348+00:00
+2026-08-12 13:36:09,271 [INFO]  Dry Run   : False
+2026-08-12 13:36:09,271 [INFO] ============================================================
+2026-08-12 13:36:09,271 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 13:36:09,272 [INFO] Found 867 Polymarket chunks from last 24h
+2026-08-12 13:36:10,166 [INFO] Found 749 Binance chunks from last 24h
+2026-08-12 13:36:10,700 [INFO] Fusion complete: 518254 rows
+2026-08-12 13:36:10,745 [INFO] Fetching resolutions for 366 markets...
+2026-08-12 13:37:31,195 [INFO]   Fused dataset: 502472 rows, 244 unique tickers
+2026-08-12 13:37:31,196 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 13:37:31,202 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 13:37:31,614 [INFO]   Sequences: 490272 samples, shape=(490272, 50, 7)
+2026-08-12 13:37:31,617 [INFO]     Class 0 (DOWN): 218634 (44.6%)
+2026-08-12 13:37:31,617 [INFO]     Class 1 (FLAT): 271638 (55.4%)
+2026-08-12 13:37:31,617 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 13:37:31,617 [INFO]   Device: cpu
+2026-08-12 13:37:31,625 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 13:37:32,198 [INFO] Training: 441244 samples, 49028 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 13:37:32,199 [INFO] Class weights: [1.1132292747497559, 0.9076778888702393]
+2026-08-12 13:39:57,367 [INFO]   Epoch 1/2 — loss: 0.583491, acc: 0.6706
+2026-08-12 13:42:22,746 [INFO]   Epoch 2/2 — loss: 0.578934, acc: 0.6740
+2026-08-12 13:42:33,408 [INFO]   Validation — loss: 0.730127, acc: 0.5796
+2026-08-12 13:42:33,532 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 13:42:33,603 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 13:42:33,651 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 13:42:33,654 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 13:42:33,654 [INFO] ============================================================
+2026-08-12 13:42:33,654 [INFO]  Shadow Retrain Complete
+2026-08-12 13:42:33,654 [INFO]   Samples trained on : 490272
+2026-08-12 13:42:33,654 [INFO]   Final train loss   : 0.578934
+2026-08-12 13:42:33,654 [INFO]   Final train acc    : 0.6740
+2026-08-12 13:42:33,654 [INFO]   Validation loss    : 0.730127
+2026-08-12 13:42:33,654 [INFO]   Validation acc     : 0.5796
+2026-08-12 13:42:33,654 [INFO] ============================================================
+2026-08-12 14:42:36,212 [INFO] ============================================================
+2026-08-12 14:42:36,212 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 14:42:36,213 [INFO]  Timestamp : 2026-08-12T18:42:36.213022+00:00
+2026-08-12 14:42:36,213 [INFO]  Dry Run   : False
+2026-08-12 14:42:36,213 [INFO] ============================================================
+2026-08-12 14:42:36,213 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 14:42:36,214 [INFO] Found 933 Polymarket chunks from last 24h
+2026-08-12 14:42:37,154 [INFO] Found 806 Binance chunks from last 24h
+2026-08-12 14:42:37,838 [INFO] Fusion complete: 560730 rows
+2026-08-12 14:42:37,878 [INFO] Fetching resolutions for 385 markets...
+2026-08-12 14:44:04,436 [INFO]   Fused dataset: 546065 rows, 263 unique tickers
+2026-08-12 14:44:04,437 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 14:44:04,443 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 14:44:04,864 [INFO]   Sequences: 532915 samples, shape=(532915, 50, 7)
+2026-08-12 14:44:04,865 [INFO]     Class 0 (DOWN): 239746 (45.0%)
+2026-08-12 14:44:04,865 [INFO]     Class 1 (FLAT): 293169 (55.0%)
+2026-08-12 14:44:04,865 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 14:44:04,865 [INFO]   Device: cpu
+2026-08-12 14:44:04,873 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 14:44:05,549 [INFO] Training: 479623 samples, 53292 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 14:44:05,549 [INFO] Class weights: [1.1034135818481445, 0.9143095016479492]
+2026-08-12 14:46:43,095 [INFO]   Epoch 1/2 — loss: 0.582471, acc: 0.6704
+2026-08-12 14:49:23,297 [INFO]   Epoch 2/2 — loss: 0.577244, acc: 0.6727
+2026-08-12 14:52:03,968 [INFO]   Validation — loss: 0.722038, acc: 0.5714
+2026-08-12 14:52:04,075 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 14:52:04,490 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 14:52:05,044 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 14:52:05,055 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 14:52:05,055 [INFO] ============================================================
+2026-08-12 14:52:05,055 [INFO]  Shadow Retrain Complete
+2026-08-12 14:52:05,058 [INFO]   Samples trained on : 532915
+2026-08-12 14:52:05,058 [INFO]   Final train loss   : 0.577244
+2026-08-12 14:52:05,058 [INFO]   Final train acc    : 0.6727
+2026-08-12 14:52:05,058 [INFO]   Validation loss    : 0.722038
+2026-08-12 14:52:05,058 [INFO]   Validation acc     : 0.5714
+2026-08-12 14:52:05,058 [INFO] ============================================================
+2026-08-12 18:06:26,573 [INFO] ============================================================
+2026-08-12 18:06:26,574 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 18:06:26,574 [INFO]  Timestamp : 2026-08-12T22:06:26.574070+00:00
+2026-08-12 18:06:26,574 [INFO]  Dry Run   : False
+2026-08-12 18:06:26,574 [INFO] ============================================================
+2026-08-12 18:06:26,574 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 18:06:26,575 [INFO] Found 1012 Polymarket chunks from last 24h
+2026-08-12 18:06:27,578 [INFO] Found 866 Binance chunks from last 24h
+2026-08-12 18:06:28,170 [INFO] Fusion complete: 599501 rows
+2026-08-12 18:06:28,207 [INFO] Fetching resolutions for 445 markets...
+2026-08-12 18:08:10,238 [INFO]   Fused dataset: 586894 rows, 322 unique tickers
+2026-08-12 18:08:10,239 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 18:08:10,244 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 18:08:10,681 [INFO]   Sequences: 570794 samples, shape=(570794, 50, 7)
+2026-08-12 18:08:10,682 [INFO]     Class 0 (DOWN): 259574 (45.5%)
+2026-08-12 18:08:10,682 [INFO]     Class 1 (FLAT): 311220 (54.5%)
+2026-08-12 18:08:10,682 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 18:08:10,682 [INFO]   Device: cpu
+2026-08-12 18:08:10,696 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 18:08:11,347 [INFO] Training: 513714 samples, 57080 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 18:08:11,347 [INFO] Class weights: [1.1154358386993408, 0.9062161445617676]
+2026-08-12 18:10:56,375 [INFO]   Epoch 1/2 — loss: 0.584653, acc: 0.6645
+2026-08-12 18:13:40,122 [INFO]   Epoch 2/2 — loss: 0.578238, acc: 0.6689
+2026-08-12 18:13:53,104 [INFO]   Validation — loss: 0.682537, acc: 0.6164
+2026-08-12 18:13:53,657 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 18:13:53,730 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 18:13:53,809 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 18:13:53,816 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 18:13:53,816 [INFO] ============================================================
+2026-08-12 18:13:53,816 [INFO]  Shadow Retrain Complete
+2026-08-12 18:13:53,817 [INFO]   Samples trained on : 570794
+2026-08-12 18:13:53,817 [INFO]   Final train loss   : 0.578238
+2026-08-12 18:13:53,817 [INFO]   Final train acc    : 0.6689
+2026-08-12 18:13:53,817 [INFO]   Validation loss    : 0.682537
+2026-08-12 18:13:53,817 [INFO]   Validation acc     : 0.6164
+2026-08-12 18:13:53,817 [INFO] ============================================================
+2026-08-12 19:13:56,383 [INFO] ============================================================
+2026-08-12 19:13:56,383 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 19:13:56,383 [INFO]  Timestamp : 2026-08-12T23:13:56.383183+00:00
+2026-08-12 19:13:56,383 [INFO]  Dry Run   : False
+2026-08-12 19:13:56,383 [INFO] ============================================================
+2026-08-12 19:13:56,383 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 19:13:56,385 [INFO] Found 1093 Polymarket chunks from last 24h
+2026-08-12 19:13:57,426 [INFO] Found 927 Binance chunks from last 24h
+2026-08-12 19:13:58,041 [INFO] Fusion complete: 638745 rows
+2026-08-12 19:13:58,075 [INFO] Fetching resolutions for 464 markets...
+2026-08-12 19:15:44,742 [INFO]   Fused dataset: 625068 rows, 341 unique tickers
+2026-08-12 19:15:44,742 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 19:15:44,745 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 19:15:45,187 [INFO]   Sequences: 608018 samples, shape=(608018, 50, 7)
+2026-08-12 19:15:45,188 [INFO]     Class 0 (DOWN): 273315 (45.0%)
+2026-08-12 19:15:45,188 [INFO]     Class 1 (FLAT): 334703 (55.0%)
+2026-08-12 19:15:45,188 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 19:15:45,188 [INFO]   Device: cpu
+2026-08-12 19:15:45,203 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 19:15:45,688 [INFO] Training: 547216 samples, 60802 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 19:15:45,689 [INFO] Class weights: [1.1036407947540283, 0.9141535758972168]
+2026-08-12 19:18:40,595 [INFO]   Epoch 1/2 — loss: 0.577116, acc: 0.6700
+2026-08-12 19:21:34,954 [INFO]   Epoch 2/2 — loss: 0.571370, acc: 0.6743
+2026-08-12 19:21:49,323 [INFO]   Validation — loss: 0.736308, acc: 0.5968
+2026-08-12 19:21:50,405 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 19:21:50,524 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 19:21:50,691 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 19:21:50,723 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 19:21:50,723 [INFO] ============================================================
+2026-08-12 19:21:50,723 [INFO]  Shadow Retrain Complete
+2026-08-12 19:21:50,723 [INFO]   Samples trained on : 608018
+2026-08-12 19:21:50,723 [INFO]   Final train loss   : 0.571370
+2026-08-12 19:21:50,723 [INFO]   Final train acc    : 0.6743
+2026-08-12 19:21:50,723 [INFO]   Validation loss    : 0.736308
+2026-08-12 19:21:50,723 [INFO]   Validation acc     : 0.5968
+2026-08-12 19:21:50,723 [INFO] ============================================================
+2026-08-12 20:21:53,793 [INFO] ============================================================
+2026-08-12 20:21:53,793 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 20:21:53,793 [INFO]  Timestamp : 2026-08-13T00:21:53.793856+00:00
+2026-08-12 20:21:53,793 [INFO]  Dry Run   : False
+2026-08-12 20:21:53,793 [INFO] ============================================================
+2026-08-12 20:21:53,793 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 20:21:53,795 [INFO] Found 1175 Polymarket chunks from last 24h
+2026-08-12 20:21:54,940 [INFO] Found 988 Binance chunks from last 24h
+2026-08-12 20:21:55,625 [INFO] Fusion complete: 671306 rows
+2026-08-12 20:21:55,664 [INFO] Fetching resolutions for 483 markets...
+2026-08-12 20:23:43,310 [INFO]   Fused dataset: 657321 rows, 362 unique tickers
+2026-08-12 20:23:43,311 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 20:23:43,317 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 20:23:43,795 [INFO]   Sequences: 639221 samples, shape=(639221, 50, 7)
+2026-08-12 20:23:43,797 [INFO]     Class 0 (DOWN): 286265 (44.8%)
+2026-08-12 20:23:43,797 [INFO]     Class 1 (FLAT): 352956 (55.2%)
+2026-08-12 20:23:43,797 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 20:23:43,797 [INFO]   Device: cpu
+2026-08-12 20:23:43,811 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 20:23:44,437 [INFO] Training: 575298 samples, 63923 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 20:23:44,438 [INFO] Class weights: [1.0729608535766602, 0.9363299608230591]
+2026-08-12 20:26:49,095 [INFO]   Epoch 1/2 — loss: 0.573116, acc: 0.6738
+2026-08-12 20:29:53,337 [INFO]   Epoch 2/2 — loss: 0.566618, acc: 0.6783
+2026-08-12 20:30:17,506 [INFO]   Validation — loss: 0.766145, acc: 0.5654
+2026-08-12 20:30:17,816 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 20:30:17,986 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 20:30:18,076 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 20:30:18,088 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 20:30:18,088 [INFO] ============================================================
+2026-08-12 20:30:18,088 [INFO]  Shadow Retrain Complete
+2026-08-12 20:30:18,088 [INFO]   Samples trained on : 639221
+2026-08-12 20:30:18,088 [INFO]   Final train loss   : 0.566618
+2026-08-12 20:30:18,088 [INFO]   Final train acc    : 0.6783
+2026-08-12 20:30:18,088 [INFO]   Validation loss    : 0.766145
+2026-08-12 20:30:18,088 [INFO]   Validation acc     : 0.5654
+2026-08-12 20:30:18,088 [INFO] ============================================================
+2026-08-12 21:30:21,070 [INFO] ============================================================
+2026-08-12 21:30:21,070 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 21:30:21,070 [INFO]  Timestamp : 2026-08-13T01:30:21.070910+00:00
+2026-08-12 21:30:21,070 [INFO]  Dry Run   : False
+2026-08-12 21:30:21,070 [INFO] ============================================================
+2026-08-12 21:30:21,070 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 21:30:21,072 [INFO] Found 1257 Polymarket chunks from last 24h
+2026-08-12 21:30:22,308 [INFO] Found 1052 Binance chunks from last 24h
+2026-08-12 21:30:23,020 [INFO] Fusion complete: 705525 rows
+2026-08-12 21:30:23,057 [INFO] Fetching resolutions for 500 markets...
+2026-08-12 21:32:18,602 [INFO]   Fused dataset: 691129 rows, 381 unique tickers
+2026-08-12 21:32:18,603 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 21:32:18,609 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 21:32:19,110 [INFO]   Sequences: 672079 samples, shape=(672079, 50, 7)
+2026-08-12 21:32:19,112 [INFO]     Class 0 (DOWN): 300470 (44.7%)
+2026-08-12 21:32:19,112 [INFO]     Class 1 (FLAT): 371609 (55.3%)
+2026-08-12 21:32:19,112 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 21:32:19,112 [INFO]   Device: cpu
+2026-08-12 21:32:19,127 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 21:32:19,692 [INFO] Training: 604871 samples, 67208 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 21:32:19,692 [INFO] Class weights: [1.1051949262619019, 0.9130899906158447]
+2026-08-12 21:35:36,698 [INFO]   Epoch 1/2 — loss: 0.569927, acc: 0.6746
+2026-08-12 21:38:53,595 [INFO]   Epoch 2/2 — loss: 0.563162, acc: 0.6794
+2026-08-12 21:39:21,088 [INFO]   Validation — loss: 0.747528, acc: 0.5819
+2026-08-12 21:39:21,284 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 21:39:21,633 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-12 21:39:21,879 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 21:39:21,913 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 21:39:21,914 [INFO] ============================================================
+2026-08-12 21:39:21,914 [INFO]  Shadow Retrain Complete
+2026-08-12 21:39:21,914 [INFO]   Samples trained on : 672079
+2026-08-12 21:39:21,914 [INFO]   Final train loss   : 0.563162
+2026-08-12 21:39:21,914 [INFO]   Final train acc    : 0.6794
+2026-08-12 21:39:21,914 [INFO]   Validation loss    : 0.747528
+2026-08-12 21:39:21,914 [INFO]   Validation acc     : 0.5819
+2026-08-12 21:39:21,914 [INFO] ============================================================
+2026-08-12 22:39:25,231 [INFO] ============================================================
+2026-08-12 22:39:25,232 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 22:39:25,232 [INFO]  Timestamp : 2026-08-13T02:39:25.232037+00:00
+2026-08-12 22:39:25,232 [INFO]  Dry Run   : False
+2026-08-12 22:39:25,232 [INFO] ============================================================
+2026-08-12 22:39:25,232 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 22:39:25,234 [INFO] Found 1339 Polymarket chunks from last 24h
+2026-08-12 22:39:26,529 [INFO] Found 1116 Binance chunks from last 24h
+2026-08-12 22:39:27,285 [INFO] Fusion complete: 742792 rows
+2026-08-12 22:39:27,322 [INFO] Fetching resolutions for 522 markets...
+2026-08-12 22:41:34,403 [INFO]   Fused dataset: 729293 rows, 401 unique tickers
+2026-08-12 22:41:34,404 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 22:41:34,411 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 22:41:34,955 [INFO]   Sequences: 709243 samples, shape=(709243, 50, 7)
+2026-08-12 22:41:34,957 [INFO]     Class 0 (DOWN): 319749 (45.1%)
+2026-08-12 22:41:34,957 [INFO]     Class 1 (FLAT): 389494 (54.9%)
+2026-08-12 22:41:34,957 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 22:41:34,957 [INFO]   Device: cpu
+2026-08-12 22:41:34,970 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 22:41:35,589 [INFO] Training: 638318 samples, 70925 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 22:41:35,589 [INFO] Class weights: [1.1159132719039917, 0.905901312828064]
+2026-08-12 22:45:00,524 [INFO]   Epoch 1/2 — loss: 0.565590, acc: 0.6766
+2026-08-12 22:48:24,841 [INFO]   Epoch 2/2 — loss: 0.558673, acc: 0.6802
+2026-08-12 22:49:07,371 [INFO]   Validation — loss: 0.710054, acc: 0.6231
+2026-08-12 22:49:07,526 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 22:49:08,274 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 22:49:08,285 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 22:49:08,285 [INFO] ============================================================
+2026-08-12 22:49:08,285 [INFO]  Shadow Retrain Complete
+2026-08-12 22:49:08,285 [INFO]   Samples trained on : 709243
+2026-08-12 22:49:08,285 [INFO]   Final train loss   : 0.558673
+2026-08-12 22:49:08,285 [INFO]   Final train acc    : 0.6802
+2026-08-12 22:49:08,285 [INFO]   Validation loss    : 0.710054
+2026-08-12 22:49:08,285 [INFO]   Validation acc     : 0.6231
+2026-08-12 22:49:08,285 [INFO] ============================================================
+2026-08-12 23:49:13,363 [INFO] ============================================================
+2026-08-12 23:49:13,363 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-12 23:49:13,363 [INFO]  Timestamp : 2026-08-13T03:49:13.363711+00:00
+2026-08-12 23:49:13,363 [INFO]  Dry Run   : False
+2026-08-12 23:49:13,363 [INFO] ============================================================
+2026-08-12 23:49:13,363 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-12 23:49:13,366 [INFO] Found 1394 Polymarket chunks from last 24h
+2026-08-12 23:49:14,704 [INFO] Found 1157 Binance chunks from last 24h
+2026-08-12 23:49:15,551 [INFO] Fusion complete: 771100 rows
+2026-08-12 23:49:15,589 [INFO] Fetching resolutions for 535 markets...
+2026-08-12 23:51:19,980 [INFO]   Fused dataset: 757095 rows, 415 unique tickers
+2026-08-12 23:51:19,981 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-12 23:51:19,988 [INFO] [3/5] Building sliding window sequences...
+2026-08-12 23:51:20,524 [INFO]   Sequences: 736393 samples, shape=(736393, 50, 7)
+2026-08-12 23:51:20,526 [INFO]     Class 0 (DOWN): 331459 (45.0%)
+2026-08-12 23:51:20,526 [INFO]     Class 1 (FLAT): 404934 (55.0%)
+2026-08-12 23:51:20,526 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-12 23:51:20,526 [INFO]   Device: cpu
+2026-08-12 23:51:20,539 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-12 23:51:21,203 [INFO] Training: 662753 samples, 73640 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-12 23:51:21,203 [INFO] Class weights: [1.13204026222229, 0.8955444097518921]
+2026-08-12 23:54:54,306 [INFO]   Epoch 1/2 — loss: 0.560844, acc: 0.6775
+2026-08-12 23:58:43,982 [INFO]   Epoch 2/2 — loss: 0.554398, acc: 0.6812
+2026-08-12 23:59:12,257 [INFO]   Validation — loss: 0.775409, acc: 0.6300
+2026-08-12 23:59:12,316 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-12 23:59:12,536 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-12 23:59:12,539 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-12 23:59:12,539 [INFO] ============================================================
+2026-08-12 23:59:12,539 [INFO]  Shadow Retrain Complete
+2026-08-12 23:59:12,540 [INFO]   Samples trained on : 736393
+2026-08-12 23:59:12,540 [INFO]   Final train loss   : 0.554398
+2026-08-12 23:59:12,540 [INFO]   Final train acc    : 0.6812
+2026-08-12 23:59:12,540 [INFO]   Validation loss    : 0.775409
+2026-08-12 23:59:12,540 [INFO]   Validation acc     : 0.6300
+2026-08-12 23:59:12,540 [INFO] ============================================================
+2026-08-13 00:59:28,118 [INFO] ============================================================
+2026-08-13 00:59:28,118 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-13 00:59:28,118 [INFO]  Timestamp : 2026-08-13T04:59:28.118269+00:00
+2026-08-13 00:59:28,118 [INFO]  Dry Run   : False
+2026-08-13 00:59:28,118 [INFO] ============================================================
+2026-08-13 00:59:28,118 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-13 00:59:28,120 [INFO] Found 1376 Polymarket chunks from last 24h
+2026-08-13 00:59:29,500 [INFO] Found 1157 Binance chunks from last 24h
+2026-08-13 00:59:30,337 [INFO] Fusion complete: 762036 rows
+2026-08-13 00:59:30,376 [INFO] Fetching resolutions for 533 markets...
+2026-08-13 01:01:27,658 [INFO]   Fused dataset: 748407 rows, 412 unique tickers
+2026-08-13 01:01:27,658 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-13 01:01:27,666 [INFO] [3/5] Building sliding window sequences...
+2026-08-13 01:01:28,288 [INFO]   Sequences: 727807 samples, shape=(727807, 50, 7)
+2026-08-13 01:01:28,291 [INFO]     Class 0 (DOWN): 328674 (45.2%)
+2026-08-13 01:01:28,291 [INFO]     Class 1 (FLAT): 399133 (54.8%)
+2026-08-13 01:01:28,291 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-13 01:01:28,291 [INFO]   Device: cpu
+2026-08-13 01:01:28,316 [INFO]   Loaded existing weights from 'leadlag_binary.pt'
+2026-08-13 01:01:29,038 [INFO] Training: 655026 samples, 72781 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-13 01:01:29,038 [INFO] Class weights: [1.125133991241455, 0.8999142646789551]
+2026-08-13 01:05:07,449 [INFO]   Epoch 1/2 — loss: 0.552008, acc: 0.6833
+2026-08-13 01:08:45,722 [INFO]   Epoch 2/2 — loss: 0.544567, acc: 0.6869
+2026-08-13 01:10:45,820 [INFO]   Validation — loss: 0.857511, acc: 0.6023
+2026-08-13 01:10:46,072 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-13 01:10:46,595 [WARNING] SANITY WARNING: Model predicts only class 0 for all 50 validation samples. Proceeding with caution.
+2026-08-13 01:10:46,849 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-13 01:10:46,858 [INFO]   Atomically replaced 'leadlag_binary.pt' with retrained weights
+2026-08-13 01:10:46,859 [INFO] ============================================================
+2026-08-13 01:10:46,859 [INFO]  Shadow Retrain Complete
+2026-08-13 01:10:46,859 [INFO]   Samples trained on : 727807
+2026-08-13 01:10:46,859 [INFO]   Final train loss   : 0.544567
+2026-08-13 01:10:46,859 [INFO]   Final train acc    : 0.6869
+2026-08-13 01:10:46,859 [INFO]   Validation loss    : 0.857511
+2026-08-13 01:10:46,859 [INFO]   Validation acc     : 0.6023
+2026-08-13 01:10:46,859 [INFO] ============================================================

@@ -1,4 +1,5 @@
 import asyncio
+import os
 import websockets
 import json
 import struct
@@ -13,9 +14,6 @@ import torch.nn as nn
 from collections import deque
 import torch.nn.functional as F
 
-# ==========================================
-# 1. ARCHITECTURE & CONFIGURATION
-# ==========================================
 BINANCE_WS_URL = "wss://data-stream.binance.vision/ws/btcusdt@depth5@100ms"
 POLYMARKET_GAMMA_API = "https://gamma-api.polymarket.com/events?tag_slug=crypto&active=true&closed=false&limit=100"
 POLYMARKET_WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
@@ -23,9 +21,13 @@ POLYMARKET_WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
 JAVA_AI_IP = "127.0.0.1"
 JAVA_AI_PORT = 8889
 JAVA_KALSHI_PORT = 8891
+PAPER_TRADE_PORT = 8892
+
+MODEL_PATH = 'leadlag.pt'
+MODEL_RELOAD_INTERVAL = 60  # seconds
 
 PACK_FORMAT = ">dd"
-KALSHI_PACK_FORMAT = ">Qdd"
+KALSHI_PACK_FORMAT = ">Qdd" #40 Bytes
 ssl_context = ssl.create_default_context(cafile=certifi.where())
 
 class LeadLagLSTM(nn.Module):
@@ -43,10 +45,23 @@ class LeadLagLSTM(nn.Module):
         x = self.relu(self.fc1(final_thought))
         return self.classifier(x)
 
-# ==========================================
-# 2. NORMALIZATION CONSTANTS
-# ==========================================
-MEANS = {
+class LeadLagLSTMBinary(nn.Module):
+    def __init__(self, input_dim=7, hidden_dim=128, num_layers=2, num_classes=2):
+        super().__init__()
+        self.lstm = nn.LSTM(input_size=input_dim, hidden_size=hidden_dim, 
+                            num_layers=num_layers, batch_first=True, dropout=0.2)
+        self.fc1 = nn.Linear(hidden_dim, 32)
+        self.relu = nn.ReLU()
+        self.classifier = nn.Linear(32, num_classes)
+
+    def forward(self, x):
+        lstm_out, _ = self.lstm(x)
+        final_thought = lstm_out[:, -1, :] 
+        x = self.relu(self.fc1(final_thought))
+        return self.classifier(x)
+
+
+MEANS = { 
     'obi': -0.008950, 
     'spread': -0.309061, 
     'time_to_expiry_seconds': 1267.371119, 
@@ -69,14 +84,10 @@ def normalize(feature_name, raw_value):
     std = STDS[feature_name] if STDS[feature_name] != 0 else 1e-6
     return (raw_value - MEANS[feature_name]) / std
 
-# ==========================================
-# 3. GLOBAL STATE
-# ==========================================
 global_poly_state = {'obi': 0.0, 'spread': 0.0, 'time_to_expiry_seconds': 0.0, 'bid': 0.0, 'ask': 0.0}
 
-# ==========================================
-# 4. POLYMARKET DISCOVERY & STREAMING
-# ==========================================
+# polymarket search
+
 async def get_top_poly_market() -> dict:
     connector = aiohttp.TCPConnector(ssl=ssl_context)
     found_markets = []
@@ -177,14 +188,46 @@ async def stream_polymarket(target_market):
             await asyncio.sleep(2)
 
 # ==========================================
-# 5. BINANCE STREAMING & LIVE INFERENCE
+# 5. HOT-SWAP MODEL RELOADER
 # ==========================================
-async def live_inference_loop():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = LeadLagLSTM().to(device)
-    model.load_state_dict(torch.load('leadlag.pt', map_location=device, weights_only=True))
-    model.eval() 
+async def model_hot_reloader(model, device):
+    """Background task: polls leadlag.pt mtime every 60s and atomically
+    swaps weights into the live model without blocking inference."""
+    last_mtime = 0.0
+    try:
+        last_mtime = os.path.getmtime(MODEL_PATH)
+    except OSError:
+        pass
 
+    print(f"[hot-swap] Watching '{MODEL_PATH}' for weight updates (interval={MODEL_RELOAD_INTERVAL}s)")
+
+    while True:
+        await asyncio.sleep(MODEL_RELOAD_INTERVAL)
+        try:
+            current_mtime = os.path.getmtime(MODEL_PATH)
+            if current_mtime != last_mtime:
+                print(f"[hot-swap] Detected new weights (mtime changed). Loading...")
+
+                # Load into a temporary CPU model to avoid disrupting GPU memory
+                new_state_dict = torch.load(MODEL_PATH, map_location='cpu', weights_only=True)
+
+                # Move weights to the live device
+                new_state_dict = {k: v.to(device) for k, v in new_state_dict.items()}
+
+                # Atomic pointer swap — sub-millisecond, never blocks inference
+                model.load_state_dict(new_state_dict)
+                model.eval()
+
+                last_mtime = current_mtime
+                print(f"[hot-swap] ✅ Live model updated successfully at {time.strftime('%H:%M:%S')}")
+        except Exception as e:
+            print(f"[hot-swap] ⚠️  Reload failed (original weights preserved): {e}")
+
+
+# ==========================================
+# 6. BINANCE STREAMING & LIVE INFERENCE
+# ==========================================
+async def live_inference_loop(model, device):
     udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sequence_memory = deque(maxlen=50)
     bin_microprice_hist = deque(maxlen=10)
@@ -226,11 +269,17 @@ async def live_inference_loop():
                     with torch.no_grad():
                         raw_logits = model(x_tensor)
                         probabilities = torch.softmax(raw_logits, dim=1)
-                        prob_down = probabilities[0][0].item()
-                        prob_up = probabilities[0][2].item()
+                        if probabilities.shape[1] == 2:
+                            prob_down = probabilities[0][0].item()
+                            prob_up = probabilities[0][1].item()
+                        else:
+                            prob_down = probabilities[0][0].item()
+                            prob_up = probabilities[0][2].item()
                     
+                    # Dual-broadcast: Java AI engine + Paper Trade Reporter
                     payload = struct.pack(PACK_FORMAT, prob_down, prob_up)
                     udp_socket.sendto(payload, (JAVA_AI_IP, JAVA_AI_PORT))
+                    udp_socket.sendto(payload, (JAVA_AI_IP, PAPER_TRADE_PORT))
 
                     # Send the Kalshi/Polymarket ask data to Java's KALSHI_PORT (8891)
                     # Java MathEngine expects >Qdd (timestamp, bid, ask)
@@ -256,6 +305,20 @@ async def live_inference_loop():
 
 import sys
 
+def _init_model(is_binary=False):
+    """Initialize model and device — shared by inference loop and hot-reloader."""
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model_path = "leadlag_binary.pt" if is_binary else MODEL_PATH
+    model = LeadLagLSTMBinary().to(device) if is_binary else LeadLagLSTM().to(device)
+    try:
+        model.load_state_dict(torch.load(model_path, map_location=device, weights_only=True))
+        print(f"[ml] Model loaded from '{model_path}' on {device}")
+    except FileNotFoundError:
+        print(f"[ml] Warning: '{model_path}' not found. Starting with random weights.")
+    model.eval()
+    return model, device
+
+
 async def main():
     if "--prompt-only" in sys.argv:
         target = await get_top_poly_market()
@@ -263,14 +326,26 @@ async def main():
             json.dump(target, f)
         return
 
+    is_binary = "--binary" in sys.argv
+    # Initialize shared model and device
+    model, device = _init_model(is_binary=is_binary)
+
     if "--run-only" in sys.argv:
         with open(".target_market.json", "r") as f:
             target_market = json.load(f)
-        await asyncio.gather(stream_polymarket(target_market), live_inference_loop())
+        await asyncio.gather(
+            stream_polymarket(target_market),
+            live_inference_loop(model, device),
+            model_hot_reloader(model, device),
+        )
         return
 
     target_market = await get_top_poly_market()
-    await asyncio.gather(stream_polymarket(target_market), live_inference_loop())
+    await asyncio.gather(
+        stream_polymarket(target_market),
+        live_inference_loop(model, device),
+        model_hot_reloader(model, device),
+    )
 
 if __name__ == "__main__":
     asyncio.run(main())

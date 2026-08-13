@@ -32,10 +32,10 @@ let test_strategies () =
   assert_action "binance_strategy on bearish"
     Ast.Hold (Evaluator.eval_action bearish_binance_state Strategies.binance_strategy);
 
-  assert_action "leadlag_strategy on arbitrage (ai_up > 0.85 and poly_ask < 0.50)"
-    Ast.Buy (Evaluator.eval_action arbitrage_state Strategies.leadlag_strategy);
-  assert_action "leadlag_strategy on non-arbitrage"
-    Ast.Hold (Evaluator.eval_action bullish_binance_state Strategies.leadlag_strategy)
+  assert_action "leadlag_pipeline on arbitrage (ai_up > 0.60)"
+    Ast.Buy (Strategies.eval_cascade arbitrage_state Strategies.leadlag_pipeline);
+  assert_action "leadlag_pipeline on non-arbitrage"
+    Ast.Hold (Strategies.eval_cascade bullish_binance_state Strategies.leadlag_pipeline)
 
 let test_wire_roundtrip () =
   Printf.printf "\n[Wire protocol round-trip]\n%!";
@@ -53,12 +53,13 @@ let test_wire_roundtrip () =
 
   (* Test market_state encode/decode *)
   let original = bullish_binance_state in
-  let buf = Bytes.create 33 in
+  let buf = Bytes.create 41 in
   Bytes.set buf 0 (char_of_int 0); (* mode 0 *)
   Bytes.set_int64_be buf 1  (Int64.bits_of_float original.microprice);
   Bytes.set_int64_be buf 9  (Int64.bits_of_float original.binance_imbalance);
   Bytes.set_int64_be buf 17 (Int64.bits_of_float original.ai_prediction_up);
   Bytes.set_int64_be buf 25 (Int64.bits_of_float original.ai_prediction_down);
+  Bytes.set_int64_be buf 33 (Int64.bits_of_float original.polymarket_ask_price);
   
   let (mode, decoded) = Wire.decode_market_state buf in
   assert_bool "market_state mode roundtrip"
@@ -70,7 +71,9 @@ let test_wire_roundtrip () =
   assert_bool "market_state ai_up roundtrip"
     true (Float.equal original.ai_prediction_up decoded.ai_prediction_up);
   assert_bool "market_state ai_down roundtrip"
-    true (Float.equal original.ai_prediction_down decoded.ai_prediction_down)
+    true (Float.equal original.ai_prediction_down decoded.ai_prediction_down);
+  assert_bool "market_state poly_ask roundtrip"
+    true (Float.equal original.polymarket_ask_price decoded.polymarket_ask_price)
 
 let benchmark_eval () =
   Printf.printf "\n[Benchmark]\n%!";
