@@ -24,6 +24,8 @@ let () =
   let request_buf = Bytes.create Wire.request_size in
   let response_buf = Bytes.create Wire.response_size in
   let eval_count = ref 0 in
+  let last_trade_time = ref 0.0 in
+  let cooldown_seconds = 30.0 in
 
   while true do
     let (bytes_read, client_addr) = Unix.recvfrom server_fd request_buf 0 Wire.request_size [] in
@@ -31,7 +33,24 @@ let () =
       let (mode, state) = Wire.decode_market_state request_buf in
       
       let pipeline = if mode = 0 then Strategies.binance_pipeline else Strategies.leadlag_pipeline in
-      let action = Strategies.eval_cascade state pipeline in
+      let raw_action = Strategies.eval_cascade state pipeline in
+
+      let action =
+        if raw_action <> Strategy_engine.Ast.Hold then
+          let now = Unix.gettimeofday () in
+          if now -. !last_trade_time >= cooldown_seconds then begin
+            last_trade_time := now;
+            Printf.printf "[OCaml] 🔥 TRIGGER %s 🔥 | %s\n%!"
+              (Wire.string_of_action raw_action)
+              (Wire.string_of_market_state state);
+            raw_action
+          end else begin
+            Printf.printf "[OCaml] ⏳ COOLDOWN SUPPRESSED %s\n%!" (Wire.string_of_action raw_action);
+            Strategy_engine.Ast.Hold
+          end
+        else
+          Strategy_engine.Ast.Hold
+      in
 
       Bytes.set response_buf 0 (Wire.encode_action action);
       

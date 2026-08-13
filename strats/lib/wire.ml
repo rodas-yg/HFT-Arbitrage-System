@@ -1,22 +1,19 @@
 (** wire.ml — Binary serialization/deserialization for IPC
 *)
 
-let request_size = 33
+let request_size = 41
 
 let response_size = 1
 
-(** Decode 33 bytes (1 byte mode + 4 × big-endian float64) into a [mode, market_state]. *)
+(** Decode 41 bytes (1 byte mode + 5 × big-endian float64) into a [mode, market_state]. *)
 let decode_market_state (buf : Bytes.t) : (int * Ast.market_state) =
   let mode                 = int_of_char (Bytes.get buf 0) in
   let microprice           = Int64.float_of_bits (Bytes.get_int64_be buf 1) in
   let binance_imbalance    = Int64.float_of_bits (Bytes.get_int64_be buf 9) in
   let ai_prediction_up     = Int64.float_of_bits (Bytes.get_int64_be buf 17) in
-  let d4                   = Int64.float_of_bits (Bytes.get_int64_be buf 25) in
+  let ai_prediction_down   = Int64.float_of_bits (Bytes.get_int64_be buf 25) in
+  let polymarket_ask_price = Int64.float_of_bits (Bytes.get_int64_be buf 33) in
   
-  let ai_prediction_down, polymarket_ask_price =
-    if mode = 0 then (d4, 0.0) else (0.0, d4)
-  in
-
   (mode, { Ast.microprice; binance_imbalance; ai_prediction_up; ai_prediction_down; polymarket_ask_price })
 
 let encode_action (action : Ast.trade_action) : char =

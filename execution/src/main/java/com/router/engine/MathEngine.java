@@ -45,8 +45,8 @@ public class MathEngine implements Runnable {
             strategyChannel.connect(new InetSocketAddress("127.0.0.1", 8890));
             strategyChannel.configureBlocking(true);
             
-            // 1 byte mode + 4 doubles max = 33 bytes
-            strategySendBuf = ByteBuffer.allocateDirect(33);
+            // 1 byte mode + 5 doubles max = 41 bytes
+            strategySendBuf = ByteBuffer.allocateDirect(41);
             strategySendBuf.order(ByteOrder.BIG_ENDIAN);
             
             strategyRecvBuf = ByteBuffer.allocateDirect(1);
@@ -177,11 +177,13 @@ public class MathEngine implements Runnable {
                             strategySendBuf.putDouble(imbalance);
                             strategySendBuf.putDouble(latestProbUp);
                             strategySendBuf.putDouble(latestProbDown);
+                            strategySendBuf.putDouble(0.0);
                         } else {
                             strategySendBuf.put((byte) 0x01);
                             strategySendBuf.putDouble(microprice);
                             strategySendBuf.putDouble(imbalance);
                             strategySendBuf.putDouble(latestProbUp);
+                            strategySendBuf.putDouble(latestProbDown);
                             strategySendBuf.putDouble(latestKalshiAsk); // Uses Polymarket/Kalshi Ask Price
                         }
                         strategySendBuf.flip();
@@ -206,6 +208,11 @@ public class MathEngine implements Runnable {
                 double aiConfidence = latestProbUp - latestProbDown;
                 broadcastTelemetry(event.ingestTimestampNs, microprice, imbalance,
                                    aiConfidence, action);
+
+                if (action != TradeAction.HOLD) {
+                    System.out.printf("[Java] 🔥 Executing Trade: %s 🔥 | Microprice: $%.2f | Confidence: %.4f%n",
+                            action, microprice, aiConfidence);
+                }
 
                 messageCount++;
                 if (messageCount % 100 == 0) {

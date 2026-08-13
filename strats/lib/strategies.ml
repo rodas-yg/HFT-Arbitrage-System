@@ -14,17 +14,17 @@ let binance_strategy : expr =
     Hold
   )
 
-(** Lead-Lag Strategy
-
-    IF (AiPredictionUp > 0.85) AND (PolymarketAskPrice < 0.50) THEN Buy
-*)
-let leadlag_strategy : expr =
+let leadlag_strategy_up : expr =
   IfThenElse (
-    And (
-      Compare (AiPredictionUp, Gt, 0.85),
-      Compare (PolymarketAskPrice, Lt, 0.50)
-    ),
+    Compare (AiPredictionUp, Gt, 0.60),
     Buy,
+    Hold
+  )
+
+let leadlag_strategy_down : expr =
+  IfThenElse (
+    Compare (AiPredictionDown, Gt, 0.60),
+    Sell,
     Hold
   )
 
@@ -47,5 +47,6 @@ let binance_pipeline : expr list = [
 ]
 
 let leadlag_pipeline : expr list = [
-  leadlag_strategy;
+  leadlag_strategy_up;
+  leadlag_strategy_down;
 ]

@@ -11,7 +11,7 @@
 #   ./launch.sh              # Launch everything
 #   ./launch.sh --skip-build # Skip compilation, just run
 #
-# Press Ctrl+C to gracefully shut down all components.
+# Press Ctrl+C to gracefully shut down all compoents.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -104,12 +104,14 @@ echo -e "${BOLD}${GREEN}║  ${MAGENTA}OCaml${GREEN}   Strategy Engine    → UD
 echo -e "${BOLD}${GREEN}║  ${BLUE}Java${GREEN}    Execution Engine   → UDP 8888 (market) 8889 (AI)    ║${RESET}"
 echo -e "${BOLD}${GREEN}║  ${YELLOW}Python${GREEN}  LSTM Inference     → sends to UDP 8889              ║${RESET}"
 echo -e "${BOLD}${GREEN}║  ${CYAN}Python${GREEN}  Market Ingester    → sends to UDP 8888              ║${RESET}"
+echo -e "${BOLD}${GREEN}║  ${RED}Python${GREEN}  Paper Trade Report → listens on UDP 8892           ║${RESET}"
 echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════════════════════╝${RESET}"
 echo ""
 
 if [[ "$mode_choice" == "2" ]]; then
     # Prompt the user BEFORE starting any background noise
-    PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/ingester/ml_predictor.py" --prompt-only
+    # PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/ingester/ml_predictor.py" --prompt-only
+    echo "Skipping prompt"
 fi
 
 
@@ -136,8 +138,13 @@ fi
 
 echo -e "${YELLOW}[ml]${RESET}    Starting LSTM inference engine..."
 if [[ "$mode_choice" == "2" ]]; then
-    PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/ingester/ml_predictor.py" --run-only 2>&1 \
+    PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/ingester/ml_predictor.py" --binary --run-only 2>&1 \
         | prefix_output "$YELLOW" "ml" &
+    PIDS+=($!)
+
+    echo -e "${RED}[report]${RESET} Starting Paper Trade Reporter..."
+    PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/report.py" 2>&1 \
+        | prefix_output "$RED" "report" &
     PIDS+=($!)
 else
     PYTHONUNBUFFERED=1 "$ROOT_DIR/.venv/bin/python" "$ROOT_DIR/ingester/ml.py" 2>&1 \

@@ -14,7 +14,7 @@ def main():
     # Sort by creation time to get the latest
     files.sort(key=lambda x: os.path.getctime(x), reverse=True)
     latest_file = files[0]
-    
+
     
     try:
         table = pq.read_table(latest_file)

@@ -1,0 +1,4 @@
+[ml] Model loaded from 'leadlag_binary.pt' on cpu
+[hot-swap] Watching 'leadlag.pt' for weight updates (interval=60s)
+[ml] tick 100  |  P(down)=0.5516  P(up)=0.4484  |  bin_microprice=$63,835.58  poly_obi=+0.000
+[ml] tick 200  |  P(down)=0.5490  P(up)=0.4510  |  bin_microprice=$63,835.59  poly_obi=+0.000

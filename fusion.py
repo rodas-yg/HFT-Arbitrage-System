@@ -7,8 +7,8 @@ import gc
 BINANCE_DIR = "data/"          
 POLYMARKET_DIR = "polymarket_data/"
 OUTPUT_FILE = "master_training_dataset.parquet"
-
 # How far into the future the AI needs to predict
+
 FUTURE_WINDOW_ROWS = 10 
 PRICE_MOVEMENT_THRESHOLD = 0.005 # 0.5% price movement required to classify as a Spike/Crash
 
