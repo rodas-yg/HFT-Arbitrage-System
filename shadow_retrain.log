@@ -1150,3 +1150,73 @@
 2026-08-13 11:33:26,224 [INFO]   Validation loss    : 0.837094
 2026-08-13 11:33:26,224 [INFO]   Validation acc     : 0.5749
 2026-08-13 11:33:26,224 [INFO] ============================================================
+2026-08-14 03:00:04,711 [INFO] ============================================================
+2026-08-14 03:00:04,711 [INFO] ============================================================
+2026-08-14 03:00:04,711 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-14 03:00:04,711 [INFO]  Shadow Retrainer — Continuous Learning Pipeline
+2026-08-14 03:00:04,711 [INFO]  Timestamp : 2026-08-14T07:00:04.711937+00:00
+2026-08-14 03:00:04,711 [INFO]  Timestamp : 2026-08-14T07:00:04.711937+00:00
+2026-08-14 03:00:04,712 [INFO]  Dry Run   : False
+2026-08-14 03:00:04,712 [INFO]  Dry Run   : False
+2026-08-14 03:00:04,712 [INFO] ============================================================
+2026-08-14 03:00:04,712 [INFO] ============================================================
+2026-08-14 03:00:04,712 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-14 03:00:04,712 [INFO] [1/5] Loading and fusing last 24h of data...
+2026-08-14 03:00:04,727 [INFO] Found 332 Polymarket chunks from last 24h
+2026-08-14 03:00:04,727 [INFO] Found 332 Polymarket chunks from last 24h
+2026-08-14 03:00:05,708 [INFO] Found 227 Binance chunks from last 24h
+2026-08-14 03:00:05,708 [INFO] Found 227 Binance chunks from last 24h
+2026-08-14 03:00:06,024 [INFO] Fusion complete: 152741 rows
+2026-08-14 03:00:06,024 [INFO] Fusion complete: 152741 rows
+2026-08-14 03:00:06,306 [INFO]   Fused dataset: 150129 rows, 248 unique tickers
+2026-08-14 03:00:06,306 [INFO]   Fused dataset: 150129 rows, 248 unique tickers
+2026-08-14 03:00:06,306 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-14 03:00:06,306 [INFO] [2/5] Computing derived features and normalizing...
+2026-08-14 03:00:06,311 [INFO] [3/5] Building sliding window sequences...
+2026-08-14 03:00:06,311 [INFO] [3/5] Building sliding window sequences...
+2026-08-14 03:00:06,924 [INFO]   Sequences: 140411 samples, shape=(140411, 50, 7)
+2026-08-14 03:00:06,924 [INFO]   Sequences: 140411 samples, shape=(140411, 50, 7)
+2026-08-14 03:00:06,926 [INFO]     Class 0 (DOWN): 14123 (10.1%)
+2026-08-14 03:00:06,926 [INFO]     Class 0 (DOWN): 14123 (10.1%)
+2026-08-14 03:00:06,926 [INFO]     Class 1 (FLAT): 111395 (79.3%)
+2026-08-14 03:00:06,926 [INFO]     Class 1 (FLAT): 111395 (79.3%)
+2026-08-14 03:00:06,927 [INFO]     Class 2 (UP): 14893 (10.6%)
+2026-08-14 03:00:06,927 [INFO]     Class 2 (UP): 14893 (10.6%)
+2026-08-14 03:00:06,927 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-14 03:00:06,927 [INFO] [4/5] Loading existing model and starting transfer learning...
+2026-08-14 03:00:06,927 [INFO]   Device: cpu
+2026-08-14 03:00:06,927 [INFO]   Device: cpu
+2026-08-14 03:00:06,947 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-14 03:00:06,947 [INFO]   Loaded existing weights from 'leadlag.pt'
+2026-08-14 03:00:08,312 [INFO] Training: 126369 samples, 14042 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-14 03:00:08,312 [INFO] Training: 126369 samples, 14042 val samples, lr=1e-05, epochs=2, batch=64
+2026-08-14 03:00:08,313 [INFO] Class weights: [3.3243627548217773, 0.4211331307888031, 3.0802924633026123]
+2026-08-14 03:00:08,313 [INFO] Class weights: [3.3243627548217773, 0.4211331307888031, 3.0802924633026123]
+2026-08-14 03:02:27,330 [INFO]   Epoch 1/2 — loss: 0.975114, acc: 0.4635
+2026-08-14 03:02:27,330 [INFO]   Epoch 1/2 — loss: 0.975114, acc: 0.4635
+2026-08-14 03:04:48,429 [INFO]   Epoch 2/2 — loss: 0.884293, acc: 0.4783
+2026-08-14 03:04:48,429 [INFO]   Epoch 2/2 — loss: 0.884293, acc: 0.4783
+2026-08-14 03:04:52,883 [INFO]   Validation — loss: 1.086022, acc: 0.3051
+2026-08-14 03:04:52,883 [INFO]   Validation — loss: 1.086022, acc: 0.3051
+2026-08-14 03:04:52,887 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-14 03:04:52,887 [INFO] [5/5] Validating and exporting retrained model...
+2026-08-14 03:04:53,548 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-14 03:04:53,548 [INFO]   Saved staged weights to 'leadlag_v2.pt'
+2026-08-14 03:04:53,580 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-14 03:04:53,580 [INFO]   Atomically replaced 'leadlag.pt' with retrained weights
+2026-08-14 03:04:53,583 [INFO] ============================================================
+2026-08-14 03:04:53,583 [INFO] ============================================================
+2026-08-14 03:04:53,584 [INFO]  Shadow Retrain Complete
+2026-08-14 03:04:53,584 [INFO]  Shadow Retrain Complete
+2026-08-14 03:04:53,584 [INFO]   Samples trained on : 140411
+2026-08-14 03:04:53,584 [INFO]   Samples trained on : 140411
+2026-08-14 03:04:53,584 [INFO]   Final train loss   : 0.884293
+2026-08-14 03:04:53,584 [INFO]   Final train loss   : 0.884293
+2026-08-14 03:04:53,584 [INFO]   Final train acc    : 0.4783
+2026-08-14 03:04:53,584 [INFO]   Final train acc    : 0.4783
+2026-08-14 03:04:53,584 [INFO]   Validation loss    : 1.086022
+2026-08-14 03:04:53,584 [INFO]   Validation loss    : 1.086022
+2026-08-14 03:04:53,585 [INFO]   Validation acc     : 0.3051
+2026-08-14 03:04:53,585 [INFO]   Validation acc     : 0.3051
+2026-08-14 03:04:53,585 [INFO] ============================================================
+2026-08-14 03:04:53,585 [INFO] ============================================================
