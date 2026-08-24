@@ -16,7 +16,7 @@ The pipeline consists of four primary subsystems communicating over local UDP so
 
 Communication across processes uses binary serialization in network byte order (Big-Endian) over localhost UDP:
 
-1. Market Data Stream (Ingester to Java Core):
+1. Market Data Stream:
 Port: UDP 8888
 Payload size: 40 bytes
 Layout: timestamp_ns (int64), bid_price (float64), bid_quantity (float64), ask_price (float64), ask_quantity (float64)
@@ -48,9 +48,9 @@ Layout: prob_down (float64), prob_up (float64)
 
 ## Core Technical Components
 
-### 1. Java Execution Core and Memory Layout
+### 1. Java Core and Memory Layout
 
-The Java engine processes incoming market data with zero allocation in the hot loop:
+The Java engine processes incoming market data with zero allocation :
 
 - Lock-Free RingBuffer: Operates over pre-allocated event objects with power-of-two sizing. Index masking using bitwise AND avoids modulo operations.
 - False Sharing Prevention: The ring buffer sequence counters utilize dedicated padding classes allocating 56 bytes of dummy memory before and after the volatile sequence counter, forcing producer and consumer sequences into distinct 64-byte L1 CPU cache lines.
@@ -83,7 +83,7 @@ The inference engine predicts short-term directional movement using an LSTM neur
 - Real-Time Normalization: Features are normalized using precomputed rolling means and standard deviations before tensor creation.
 - Continuous Data Fusion: Merges asynchronous spot and prediction market tick files using backward timestamp matching (merge_asof) to align nanosecond events into labeled training sets.
 
-### 4. Post-Market Paper Trading Daemon
+### 4. Post-Market Paper Trading
 
 The paper trading engine validates execution performance:
 
